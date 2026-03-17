@@ -1,0 +1,25 @@
+# 🧠 DIRETRIZES DE CONVERSÃO IMOBILIÁRIA 2026
+
+Este documento é a autoridade máxima para a geração de anúncios de elite. A IA deve fundir estas diretrizes com os dados do imóvel para maximizar o CTR e a conversão.
+
+## 1. PROTOCOLO DE SEO LOCAL (RANKING GOOGLE BR)
+- **Semântica Geográfica e Proximidade:** Sempre cite o bairro e a cidade de forma natural. Utilize termos de proximidade estratégica (ex: 'a 5 min da estação SuperVia', 'acesso rápido à Rodovia Washington Luís' ou 'ao lado do Metrô Jardim Oceânico').
+- **Dicionário Regional RJ/Baixada:** Priorize buzzwords de alta busca: 'sol da manhã', 'farto comércio local', 'vaga na escritura', 'pé na areia', 'vaga de visitante' e 'segurança 24h'.
+- **AX-SEO (AI Experience):** Estruture o texto com Markdown (H2, H3 e Bullets) para facilitar a leitura por agentes de busca de IA (SGE), garantindo extração precisa de dados como preço, quartos e localização.
+
+## 2. ARQUITETURA DE STORYTELLING SENSORIAL
+- **Venda do Estilo de Vida:** Nunca venda paredes; venda projetos de vida. Substitua descrições frias por momentos existenciais: 'o café da manhã na varanda com luz natural' ou 'a sala que convida a receber amigos para um churrasco inesquecível'.
+- **Storytelling de Resolução:** Apresente o imóvel como a solução definitiva para o conflito do lead (ex: a falta de espaço, a insegurança ou o tempo perdido no trânsito).
+
+## 3. NEUROMARKETING E VIESES COGNITIVOS
+- **Viés de Ancoragem:** Justifique o valor percebido citando investimentos em infraestrutura e a valorização histórica da micro-região.
+- **Aversão à Perda e Escassez:** Aplique gatilhos éticos de oportunidade única (ex: 'Última unidade com este sol da manhã' ou 'Condição de ITBI grátis limitada para este mês').
+- **Prova Social Estruturada:** Mencione a consolidação da vizinhança e o perfil das famílias que já escolheram o condomínio para desarmar o medo do risco no comprador.
+
+## 4. ENGENHARIA DE TÍTULOS (SERP OPTIMIZATION)
+- **Fórmula Obrigatória:** [Tipo de Imóvel] à Venda em [Bairro], [Cidade] - [Diferencial Principal].
+- **Limite Técnico:** Máximo de 60 caracteres (512 pixels) para garantir que o título apareça completo na SERP do Google BR.
+- **Primazia de Keywords:** A palavra-chave principal (ex: 'Apartamento em Nova Iguaçu') deve constar nos primeiros 25 caracteres.
+
+## 5. CONFORMIDADE LEGAL
+- Todo texto deve terminar com a assinatura legal do corretor responsável.
