@@ -133,7 +133,7 @@ export function Home() {
       }
 
       // 3. Busca Destaques Premium
-      const { data } = await supabase.from('properties').select('*').limit(5).order('created_at', { ascending: false });
+      const { data } = await supabase.from('properties').select('*').limit(10).order('created_at', { ascending: false });
       if (data && data.length > 0) setFeaturedProperties(data);
 
       // 4. Busca Blog Posts e Depoimentos (Novas Seções)
@@ -146,15 +146,22 @@ export function Home() {
     fetchData();
   }, []);
 
-  const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % featuredProperties.length);
-  const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + featuredProperties.length) % featuredProperties.length);
+  const nextSlide = () => {
+    const maxIndex = featuredProperties.length > 3 ? featuredProperties.length - 3 :  Math.max(0, featuredProperties.length - 1);
+    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+  };
+  
+  const prevSlide = () => {
+    const maxIndex = featuredProperties.length > 3 ? featuredProperties.length - 3 : Math.max(0, featuredProperties.length - 1);
+    setCurrentIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
+  };
 
   return (
     <div className="min-h-screen bg-zinc-50 font-sans">
       <StructuredData />
       <PublicHeader />
 
-      {/* --- CORE: Hero Section (PRESERVE) --- */}
+      {/* --- Hero Section --- */}
       <section className="pt-40 pb-20 px-4 relative overflow-hidden min-h-[80vh] flex items-center">
         <motion.div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 opacity-40">
           <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-100/50 blur-[120px] rounded-full" />
@@ -176,47 +183,78 @@ export function Home() {
         </motion.div>
       </section>
 
-      {/* --- CORE: Featured Properties Section (PRESERVE) --- */}
+      {/* --- REFINED: Featured Properties Section (Two-Column Layout) --- */}
       {featuredList.length > 0 && (
-        <section className="py-24 px-4 bg-zinc-50">
+        <section className="py-24 px-4 bg-zinc-50 border-y border-zinc-100">
           <div className="max-w-7xl mx-auto">
-            <div className="flex items-center gap-3 text-amber-500 font-bold text-xs uppercase tracking-[0.2em] mb-10">
+            <div className="flex items-center gap-3 text-amber-500 font-bold text-xs uppercase tracking-[0.2em] mb-12">
               <div className="h-[1px] w-8 bg-amber-500/30" />
               <Star className="w-4 h-4 text-amber-500" fill="#fbbf24" stroke="#fbbf24" />
               Destaque da Semana
             </div>
-            <div className="grid grid-cols-1 gap-12">
+            
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
               {featuredList.map((item) => (
-                <Link key={item.id} to={`/imovel/${item.id}`} className="group block">
-                  <div className="flex flex-col gap-8">
-                    <div className="aspect-[16/10] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-zinc-300/50 relative bg-zinc-200">
-                      {item.images && item.images.length > 0 ? (
-                        <img src={item.images[0]} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" loading="lazy" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-zinc-400"><HomeIcon className="w-12 h-12 opacity-20" /></div>
-                      )}
-                      <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-md text-zinc-900 px-4 py-1.5 rounded-full font-bold text-[10px] uppercase tracking-widest shadow-xl">
-                        {item.purpose}
+                <React.Fragment key={item.id}>
+                  {/* Left Column: Image */}
+                  <div className="lg:col-span-7">
+                    <Link to={`/imovel/${item.id}`} className="group block">
+                      <div className="aspect-[16/9] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-zinc-300/50 relative bg-zinc-200">
+                        {item.images && item.images.length > 0 ? (
+                          <img 
+                            src={item.images[0]} 
+                            alt={item.title} 
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" 
+                            loading="lazy" 
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-zinc-400">
+                            <HomeIcon className="w-12 h-12 opacity-20" />
+                          </div>
+                        )}
+                        <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-md text-zinc-900 px-4 py-1.5 rounded-full font-bold text-[10px] uppercase tracking-widest shadow-xl">
+                          {item.purpose}
+                        </div>
                       </div>
-                    </div>
+                    </Link>
+                  </div>
+                  
+                  {/* Right Column: Info */}
+                  <div className="lg:col-span-5 space-y-8">
                     <div className="space-y-4">
-                      <div className="flex items-center justify-between text-zinc-400 text-xs font-medium">
-                        <div className="flex items-center gap-2"><MapPin className="w-4 h-4 text-emerald-500" />{item.neighborhood}, {item.city}</div>
-                        <span className="font-bold text-zinc-500">#{item.property_code}</span>
+                      <div className="flex items-center justify-between text-zinc-400 text-xs font-medium uppercase tracking-widest">
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-4 h-4 text-emerald-500" />
+                          {item.neighborhood}, {item.city}
+                        </div>
+                        <span className="font-bold text-zinc-500 px-3 py-1 bg-zinc-100 rounded-full">#{item.property_code}</span>
                       </div>
-                      <h2 className="text-3xl font-black text-zinc-900 tracking-tighter leading-tight group-hover:text-emerald-600 transition-colors">{item.title}</h2>
-                      <p className="text-4xl font-black text-emerald-600 tracking-tight">{formatPrice(item.price)}</p>
+                      <Link to={`/imovel/${item.id}`} className="block group">
+                        <h2 className="text-4xl md:text-5xl font-black text-zinc-900 tracking-tighter leading-tight group-hover:text-emerald-600 transition-colors">
+                          {item.title}
+                        </h2>
+                      </Link>
+                      <p className="text-5xl font-black text-emerald-600 tracking-tight">{formatPrice(item.price)}</p>
+                    </div>
+                    
+                    <div className="pt-8 border-t border-zinc-200">
+                      <Link 
+                        to={`/imovel/${item.id}`}
+                        className="inline-flex items-center gap-4 bg-zinc-900 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-zinc-800 hover:translate-x-2 transition-all"
+                      >
+                        Ver Detalhes do Imóvel <ChevronRight className="w-5 h-5" />
+                      </Link>
                     </div>
                   </div>
-                </Link>
+                </React.Fragment>
               ))}
             </div>
           </div>
         </section>
       )}
 
-      {/* --- CORE: Search Bar Section (PRESERVE) --- */}
-      <section className="py-12 px-4">
+      {/* --- Search Bar Section --- */}
+      <section className="py-12 px-4 translate-y-[-50%] z-20">
         <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} className="max-w-4xl mx-auto bg-white p-2 rounded-[2rem] shadow-2xl shadow-zinc-200/60 flex flex-col md:flex-row gap-2 border border-zinc-100">
           <div className="flex-[2] flex flex-col justify-center px-8 py-4 border-b md:border-b-0 md:border-r border-zinc-100 relative group/select">
             <label className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1 flex items-center gap-2"><MapPin className="w-3 h-3 text-emerald-500" />Onde você quer morar?</label>
@@ -235,47 +273,55 @@ export function Home() {
         </motion.div>
       </section>
 
-      {/* --- CORE: Featured Carousel / Destaques Premium (PRESERVE) --- */}
-      <section className="py-16 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 mb-8"><h2 className="text-2xl font-bold text-zinc-900">Destaques Premium</h2></div>
-        <div className="max-w-7xl mx-auto relative group px-4">
+      {/* --- REFINED: Featured Carousel / Destaques Premium (Multi-Card Display) --- */}
+      <section className="py-16 md:py-32 overflow-hidden bg-zinc-50">
+        <div className="max-w-7xl mx-auto px-4 mb-12 flex justify-between items-end">
+          <div>
+            <span className="text-emerald-600 font-black text-[10px] uppercase tracking-[0.4em] mb-4 block">EXCLUSIVIDADES</span>
+            <h2 className="text-4xl font-black text-zinc-900 tracking-tighter">Destaques Premium</h2>
+          </div>
+          <div className="flex gap-4">
+             <button onClick={prevSlide} className="w-12 h-12 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all shadow-sm"><ChevronLeft className="w-6 h-6" /></button>
+             <button onClick={nextSlide} className="w-12 h-12 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all shadow-sm"><ChevronRight className="w-6 h-6" /></button>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto relative px-4">
           {featuredProperties.length > 0 ? (
-            <>
-              <div className="overflow-hidden">
-                <div className="flex gap-6 transition-transform duration-500 ease-out" style={{ transform: `translateX(calc(-${currentIndex} * (100% + 1.5rem)))` }}>
-                  {featuredProperties.map((property) => (
-                    <motion.div key={property.id} className="w-full shrink-0 bg-white rounded-3xl overflow-hidden border border-zinc-100 shadow-sm group/card">
-                      <Link to={`/imovel/${property.id}`}>
-                        <div className="aspect-[4/3] overflow-hidden relative bg-zinc-200">
-                          {property.images && property.images.length > 0 ? (
-                            <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500" loading="lazy" />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-zinc-400"><HomeIcon className="w-8 h-8 opacity-20" /></div>
-                          )}
-                          <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-zinc-900">
-                            {property.purpose}
-                          </div>
-                        </div>
-                        <div className="p-6">
-                          <div className="flex items-center justify-between text-zinc-400 text-xs mb-2">
-                            <div className="flex items-center gap-2"><MapPin className="w-3 h-3" />{property.neighborhood}, {property.city}</div>
-                            <span className="font-bold text-zinc-500">#{property.property_code}</span>
-                          </div>
-                          <h3 className="text-lg font-bold text-zinc-900 mb-1">{property.title}</h3>
-                          <p className="text-emerald-600 font-bold text-xl">{formatPrice(property.price)}</p>
-                        </div>
-                      </Link>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-              {featuredProperties.length > 1 && (
-                <>
-                  <button onClick={prevSlide} className="absolute left-6 top-[35%] -translate-y-1/2 p-3 bg-white/90 backdrop-blur-sm rounded-full shadow-xl border border-zinc-100 hover:bg-white transition-all z-10"><ChevronLeft className="w-6 h-6 text-zinc-900" /></button>
-                  <button onClick={nextSlide} className="absolute right-6 top-[35%] -translate-y-1/2 p-3 bg-white/90 backdrop-blur-sm rounded-full shadow-xl border border-zinc-100 hover:bg-white transition-all z-10"><ChevronRight className="w-6 h-6 text-zinc-900" /></button>
-                </>
-              )}
-            </>
+            <div className="overflow-hidden">
+               <div 
+                 className="flex gap-6 transition-transform duration-500 ease-out" 
+                 style={{ transform: `translateX(calc(-${currentIndex} * (33.333% + 1.25rem)))` }}
+               >
+                 {featuredProperties.map((property) => (
+                   <motion.div 
+                     key={property.id} 
+                     className="w-full md:w-[calc(33.333%-1rem)] shrink-0 bg-white rounded-[2.5rem] overflow-hidden border border-zinc-100 shadow-xl shadow-zinc-200/40 group/card mb-8"
+                   >
+                     <Link to={`/imovel/${property.id}`}>
+                       <div className="aspect-[4/3] overflow-hidden relative bg-zinc-200">
+                         {property.images && property.images.length > 0 ? (
+                           <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-700" loading="lazy" />
+                         ) : (
+                           <div className="w-full h-full flex items-center justify-center text-zinc-400"><HomeIcon className="w-8 h-8 opacity-20" /></div>
+                         )}
+                         <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-black uppercase text-zinc-900 shadow-lg">
+                           {property.purpose}
+                         </div>
+                       </div>
+                       <div className="p-8 space-y-4">
+                         <div className="flex items-center justify-between text-zinc-400 text-[10px] font-black uppercase tracking-widest">
+                           <div className="flex items-center gap-2"><MapPin className="w-3.5 h-3.5 text-emerald-500" />{property.neighborhood}</div>
+                           <span className="text-zinc-300">#{property.property_code}</span>
+                         </div>
+                         <h3 className="text-xl font-black text-zinc-900 tracking-tight leading-tight line-clamp-1 group-hover/card:text-emerald-600 transition-colors">{property.title}</h3>
+                         <p className="text-emerald-600 font-black text-2xl tracking-tighter">{formatPrice(property.price)}</p>
+                       </div>
+                     </Link>
+                   </motion.div>
+                 ))}
+               </div>
+            </div>
           ) : (
             <div className="h-[400px] flex items-center justify-center text-zinc-400 italic">Nenhum imóvel em destaque no momento.</div>
           )}
@@ -440,7 +486,7 @@ export function Home() {
         </div>
       </section>
 
-      {/* --- CORE EXPANED: [FOOTER: EXPANDIDO_NAP] --- */}
+      {/* --- FOOTER: [EXPANDIDO_NAP] --- */}
       <footer className="bg-zinc-950 text-zinc-500 pt-24 pb-12 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 mb-20">
