@@ -97,3 +97,17 @@ CREATE POLICY "Corretores podem ver visualizações de seus próprios imóveis" 
 -- 8. Bucket de Storage
 -- Nota: O bucket 'property-images' deve ser criado manualmente no painel do Supabase
 -- com acesso público para leitura.
+
+-- 9. Tabela de Configurações Globais
+CREATE TABLE IF NOT EXISTS global_settings (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  key TEXT UNIQUE NOT NULL,
+  value TEXT,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+ALTER TABLE global_settings ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Leitura global de configurações" ON global_settings FOR SELECT USING (true);
+CREATE POLICY "Escrita global de configurações" ON global_settings FOR INSERT WITH CHECK (true);
+CREATE POLICY "Atualização global de configurações" ON global_settings FOR UPDATE USING (true);

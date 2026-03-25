@@ -244,6 +244,14 @@ BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'Leitura global de configurações') THEN
         CREATE POLICY "Leitura global de configurações" ON public.global_settings FOR SELECT TO authenticated USING (true);
     END IF;
+
+    IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'Escrita global de configurações') THEN
+        CREATE POLICY "Escrita global de configurações" ON public.global_settings FOR INSERT TO authenticated WITH CHECK (true);
+    END IF;
+
+    IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'Atualização global de configurações') THEN
+        CREATE POLICY "Atualização global de configurações" ON public.global_settings FOR UPDATE TO authenticated USING (true);
+    END IF;
 END $$;
 
 -- 4. Configuração de Storage e Políticas de Imagem

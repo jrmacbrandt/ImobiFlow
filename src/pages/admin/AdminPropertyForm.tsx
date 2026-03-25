@@ -261,7 +261,7 @@ QUESTIONÁRIO ESTRATÉGICO:
 Aplique Ancoragem, Aversão à Perda e Prova Social conforme as diretrizes.`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-2.5-flash",
         contents: userPrompt,
         config: {
           systemInstruction: systemInstruction,
