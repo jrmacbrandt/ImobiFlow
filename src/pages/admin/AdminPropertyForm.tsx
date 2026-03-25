@@ -837,18 +837,17 @@ Aplique Ancoragem, Aversão à Perda e Prova Social conforme as diretrizes.`;
               </div>
             )}
           </div>
-        </div>
 
-        {/* Sidebar: Ações */}
-        <div className="space-y-8">
-          <button 
-            onClick={handleSave}
-            disabled={loading}
-            className="w-full bg-zinc-900 text-white py-4 rounded-2xl font-bold hover:bg-zinc-800 transition-all flex items-center justify-center gap-2 shadow-lg shadow-zinc-200"
-          >
-            <Save className="w-5 h-5" />
-            {loading ? 'Salvando...' : 'Publicar Imóvel'}
-          </button>
+          <div className="pt-4 pb-12 mt-8">
+            <button 
+              onClick={handleSave}
+              disabled={loading}
+              className="w-full bg-zinc-900 text-white py-4 rounded-2xl font-bold hover:bg-zinc-800 transition-all flex items-center justify-center gap-2 shadow-lg shadow-zinc-200"
+            >
+              <Save className="w-5 h-5" />
+              {loading ? 'Salvando...' : 'Publicar Imóvel'}
+            </button>
+          </div>
         </div>
       </div>
     </div>
