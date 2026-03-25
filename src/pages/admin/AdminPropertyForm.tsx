@@ -266,7 +266,6 @@ Aplique Ancoragem, Aversão à Perda e Prova Social conforme as diretrizes.`;
         config: {
           systemInstruction: systemInstruction,
           responseMimeType: "application/json",
-          tools: [{ googleSearch: {} }],
         },
       });
 
