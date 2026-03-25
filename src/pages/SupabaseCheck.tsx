@@ -282,6 +282,34 @@ BEGIN
         USING (bucket_id = 'property-images');
     END IF;
 END $$;
+
+-- 5. Função RPC de Reset Total (Factory Reset Bypass RLS)
+CREATE OR REPLACE FUNCTION factory_reset()
+RETURNS json
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  v_count INTEGER;
+  p_count INTEGER;
+  n_count INTEGER;
+BEGIN
+  WITH deleted AS (DELETE FROM property_views RETURNING 1)
+  SELECT count(*) INTO v_count FROM deleted;
+
+  WITH deleted AS (DELETE FROM properties RETURNING 1)
+  SELECT count(*) INTO p_count FROM deleted;
+
+  WITH deleted AS (DELETE FROM neighborhoods RETURNING 1)
+  SELECT count(*) INTO n_count FROM deleted;
+
+  RETURN json_build_object(
+    'views', COALESCE(v_count, 0),
+    'properties', COALESCE(p_count, 0),
+    'neighborhoods', COALESCE(n_count, 0)
+  );
+END;
+$$;
 `;
 
   const [syncing, setSyncing] = useState(false);

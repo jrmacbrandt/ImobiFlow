@@ -111,3 +111,31 @@ ALTER TABLE global_settings ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Leitura global de configurações" ON global_settings FOR SELECT USING (true);
 CREATE POLICY "Escrita global de configurações" ON global_settings FOR INSERT WITH CHECK (true);
 CREATE POLICY "Atualização global de configurações" ON global_settings FOR UPDATE USING (true);
+
+-- 10. Função RPC de Reset Total (Factory Reset Bypass RLS)
+CREATE OR REPLACE FUNCTION factory_reset()
+RETURNS json
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  v_count INTEGER;
+  p_count INTEGER;
+  n_count INTEGER;
+BEGIN
+  WITH deleted AS (DELETE FROM property_views RETURNING 1)
+  SELECT count(*) INTO v_count FROM deleted;
+
+  WITH deleted AS (DELETE FROM properties RETURNING 1)
+  SELECT count(*) INTO p_count FROM deleted;
+
+  WITH deleted AS (DELETE FROM neighborhoods RETURNING 1)
+  SELECT count(*) INTO n_count FROM deleted;
+
+  RETURN json_build_object(
+    'views', COALESCE(v_count, 0),
+    'properties', COALESCE(p_count, 0),
+    'neighborhoods', COALESCE(n_count, 0)
+  );
+END;
+$$;

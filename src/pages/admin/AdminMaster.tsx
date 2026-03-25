@@ -212,36 +212,44 @@ export function AdminMaster() {
         files: 0
       };
 
-      // 1. Delete Property Views
-      const { count: viewsCount } = await supabase
-        .from('property_views')
-        .delete({ count: 'exact' })
-        .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all
-      stats.views = viewsCount || 0;
+      // 1. Apagar banco de dados via RPC (Bypass RLS)
+      const { data: dbStats, error: dbError } = await supabase.rpc('factory_reset');
+      
+      if (dbError) {
+        throw new Error('Falha no Reset do Banco (Você ainda precisa rodar o script SQL de Reset no painel do Supabase). ' + dbError.message);
+      }
 
-      // 2. Delete Properties
-      const { count: propsCount } = await supabase
-        .from('properties')
-        .delete({ count: 'exact' })
-        .neq('id', '00000000-0000-0000-0000-000000000000');
-      stats.properties = propsCount || 0;
+      stats.properties = dbStats?.properties || 0;
+      stats.views = dbStats?.views || 0;
+      stats.neighborhoods = dbStats?.neighborhoods || 0;
 
-      // 3. Delete Neighborhoods
-      const { count: neighCount } = await supabase
-        .from('neighborhoods')
-        .delete({ count: 'exact' })
-        .neq('id', '00000000-0000-0000-0000-000000000000');
-      stats.neighborhoods = neighCount || 0;
+      // 2. Clear Storage fully (pagination since limit defaults to 100)
+      let hasMore = true;
+      let totalDeleted = 0;
+      
+      while(hasMore) {
+        const { data: files, error: listError } = await supabase.storage.from('property-images').list('', { limit: 100 });
+        if (listError) throw listError;
+        
+        if (!files || files.length === 0) {
+          hasMore = false;
+          break;
+        }
+        
+        // Filter out the implicit root empty folder placeholder if present
+        const filePaths = files.map(f => f.name).filter(name => name !== '.emptyFolderPlaceholder');
+        
+        if (filePaths.length > 0) {
+          const { error: storageError } = await supabase.storage.from('property-images').remove(filePaths);
+          if (storageError) throw storageError;
+          totalDeleted += filePaths.length;
+        }
 
-      // 4. Clear Storage
-      const { data: files } = await supabase.storage.from('property-images').list();
-      if (files && files.length > 0) {
-        const filePaths = files.map(f => f.name);
-        const { error: storageError } = await supabase.storage.from('property-images').remove(filePaths);
-        if (!storageError) {
-          stats.files = filePaths.length;
+        if (files.length < 100) {
+          hasMore = false;
         }
       }
+      stats.files = totalDeleted;
 
       setResetStats(stats);
       alert('Reset de Fábrica concluído com sucesso!');
