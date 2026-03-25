@@ -185,7 +185,29 @@ export function Home() {
     fetchData();
   }, []);
 
-
+  const nextSlide = () => {
+    if (carouselRef.current) {
+      const container = carouselRef.current;
+      const cardWidth = container.firstElementChild?.clientWidth || 0;
+      if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
+        container.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        container.scrollBy({ left: cardWidth + 24, behavior: 'smooth' });
+      }
+    }
+  };
+  
+  const prevSlide = () => {
+    if (carouselRef.current) {
+      const container = carouselRef.current;
+      const cardWidth = container.firstElementChild?.clientWidth || 0;
+      if (container.scrollLeft <= 10) {
+        container.scrollTo({ left: container.scrollWidth, behavior: 'smooth' });
+      } else {
+        container.scrollBy({ left: -(cardWidth + 24), behavior: 'smooth' });
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-zinc-50 font-sans">
@@ -314,8 +336,8 @@ export function Home() {
             <h2 className="text-4xl font-black text-zinc-900 tracking-tighter">Destaques Premium</h2>
           </div>
           <div className="flex gap-4">
-             <button onClick={() => { if (carouselRef.current) { carouselRef.current.scrollBy({ left: -(carouselRef.current.firstElementChild?.clientWidth || 0) - 24, behavior: 'smooth' }); } }} className="w-12 h-12 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all shadow-sm"><ChevronLeft className="w-6 h-6" /></button>
-             <button onClick={() => { if (carouselRef.current) { carouselRef.current.scrollBy({ left: (carouselRef.current.firstElementChild?.clientWidth || 0) + 24, behavior: 'smooth' }); } }} className="w-12 h-12 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all shadow-sm"><ChevronRight className="w-6 h-6" /></button>
+             <button onClick={prevSlide} className="w-12 h-12 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all shadow-sm"><ChevronLeft className="w-6 h-6" /></button>
+             <button onClick={nextSlide} className="w-12 h-12 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all shadow-sm"><ChevronRight className="w-6 h-6" /></button>
           </div>
         </div>
 
