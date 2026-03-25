@@ -88,9 +88,9 @@ export function Home() {
   const [dynamicRegions, setDynamicRegions] = useState<any[]>([]);
   const [selectedNeighborhood, setSelectedNeighborhood] = useState('');
   const [searchCode, setSearchCode] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
 
   const heroRef = useRef(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -185,15 +185,7 @@ export function Home() {
     fetchData();
   }, []);
 
-  const nextSlide = () => {
-    const maxIndex = featuredProperties.length > 3 ? featuredProperties.length - 3 :  Math.max(0, featuredProperties.length - 1);
-    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
-  };
-  
-  const prevSlide = () => {
-    const maxIndex = featuredProperties.length > 3 ? featuredProperties.length - 3 : Math.max(0, featuredProperties.length - 1);
-    setCurrentIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
-  };
+
 
   return (
     <div className="min-h-screen bg-zinc-50 font-sans">
@@ -219,6 +211,26 @@ export function Home() {
               A tecnologia do futuro para encontrar o seu lar hoje. Simples, rápido e com curadoria especializada.
             </p>
           </motion.div>
+        </motion.div>
+      </section>
+
+      {/* --- Search Bar Section --- */}
+      <section className="px-4 -mt-16 md:-mt-12 relative z-30 mb-8 md:mb-16">
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} className="max-w-4xl mx-auto bg-white p-2 rounded-[2rem] shadow-2xl shadow-zinc-200/60 flex flex-col md:flex-row gap-2 border border-zinc-100">
+          <div className="flex-[2] flex flex-col justify-center px-8 py-4 border-b md:border-b-0 md:border-r border-zinc-100 relative group/select">
+            <label className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1 flex items-center gap-2"><MapPin className="w-3 h-3 text-emerald-500" />Onde você quer morar?</label>
+            <div className="relative flex items-center">
+              <select value={selectedNeighborhood} onChange={e => setSelectedNeighborhood(e.target.value)} className="w-full outline-none text-zinc-900 font-bold bg-transparent appearance-none cursor-pointer pr-8 z-10">
+                <option value="">Todos os Bairros</option>
+                {neighborhoods.map(nb => (<option key={nb.id} value={nb.nome}>{nb.nome}</option>))}
+              </select>
+              <ChevronDown className="absolute right-0 w-4 h-4 text-zinc-400 group-hover/select:text-emerald-500 transition-colors pointer-events-none" />
+            </div>
+          </div>
+          <div className="flex-1 flex items-center px-6 gap-3 border-b md:border-b-0 md:border-r border-zinc-100 relative">
+            <Search className="w-5 h-5 text-zinc-400 z-10" /><input type="text" placeholder="Cód. Imóvel" maxLength={4} value={searchCode} onChange={e => setSearchCode(e.target.value.replace(/\D/g, ''))} className="w-full py-4 outline-none text-zinc-900 placeholder:text-zinc-400 font-medium bg-transparent" />
+          </div>
+          <Link to={`/imoveis${selectedNeighborhood || searchCode ? '?' : ''}${selectedNeighborhood ? `bairro=${selectedNeighborhood}` : ''}${selectedNeighborhood && searchCode ? '&' : ''}${searchCode ? `codigo=${searchCode}` : ''}`} className="bg-zinc-900 text-white px-10 py-4 rounded-[1.5rem] font-bold hover:bg-zinc-800 transition-all flex items-center justify-center gap-2 shadow-lg shadow-zinc-200"><Search className="w-5 h-5" />Explorar Agora</Link>
         </motion.div>
       </section>
 
@@ -292,25 +304,7 @@ export function Home() {
         </section>
       )}
 
-      {/* --- Search Bar Section --- */}
-      <section className="py-12 px-4 translate-y-[-50%] z-20">
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} className="max-w-4xl mx-auto bg-white p-2 rounded-[2rem] shadow-2xl shadow-zinc-200/60 flex flex-col md:flex-row gap-2 border border-zinc-100">
-          <div className="flex-[2] flex flex-col justify-center px-8 py-4 border-b md:border-b-0 md:border-r border-zinc-100 relative group/select">
-            <label className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1 flex items-center gap-2"><MapPin className="w-3 h-3 text-emerald-500" />Onde você quer morar?</label>
-            <div className="relative flex items-center">
-              <select value={selectedNeighborhood} onChange={e => setSelectedNeighborhood(e.target.value)} className="w-full outline-none text-zinc-900 font-bold bg-transparent appearance-none cursor-pointer pr-8 z-10">
-                <option value="">Todos os Bairros</option>
-                {neighborhoods.map(nb => (<option key={nb.id} value={nb.nome}>{nb.nome}</option>))}
-              </select>
-              <ChevronDown className="absolute right-0 w-4 h-4 text-zinc-400 group-hover/select:text-emerald-500 transition-colors pointer-events-none" />
-            </div>
-          </div>
-          <div className="flex-1 flex items-center px-6 gap-3 border-b md:border-b-0 md:border-r border-zinc-100 relative">
-            <Search className="w-5 h-5 text-zinc-400 z-10" /><input type="text" placeholder="Cód. Imóvel" maxLength={4} value={searchCode} onChange={e => setSearchCode(e.target.value.replace(/\D/g, ''))} className="w-full py-4 outline-none text-zinc-900 placeholder:text-zinc-400 font-medium bg-transparent" />
-          </div>
-          <Link to={`/imoveis${selectedNeighborhood || searchCode ? '?' : ''}${selectedNeighborhood ? `bairro=${selectedNeighborhood}` : ''}${selectedNeighborhood && searchCode ? '&' : ''}${searchCode ? `codigo=${searchCode}` : ''}`} className="bg-zinc-900 text-white px-10 py-4 rounded-[1.5rem] font-bold hover:bg-zinc-800 transition-all flex items-center justify-center gap-2 shadow-lg shadow-zinc-200"><Search className="w-5 h-5" />Explorar Agora</Link>
-        </motion.div>
-      </section>
+
 
       {/* --- REFINED: Featured Carousel / Destaques Premium (Multi-Card Display) --- */}
       <section className="py-16 md:py-32 overflow-hidden bg-zinc-50">
@@ -320,8 +314,8 @@ export function Home() {
             <h2 className="text-4xl font-black text-zinc-900 tracking-tighter">Destaques Premium</h2>
           </div>
           <div className="flex gap-4">
-             <button onClick={prevSlide} className="w-12 h-12 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all shadow-sm"><ChevronLeft className="w-6 h-6" /></button>
-             <button onClick={nextSlide} className="w-12 h-12 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all shadow-sm"><ChevronRight className="w-6 h-6" /></button>
+             <button onClick={() => { if (carouselRef.current) { carouselRef.current.scrollBy({ left: -(carouselRef.current.firstElementChild?.clientWidth || 0) - 24, behavior: 'smooth' }); } }} className="w-12 h-12 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all shadow-sm"><ChevronLeft className="w-6 h-6" /></button>
+             <button onClick={() => { if (carouselRef.current) { carouselRef.current.scrollBy({ left: (carouselRef.current.firstElementChild?.clientWidth || 0) + 24, behavior: 'smooth' }); } }} className="w-12 h-12 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all shadow-sm"><ChevronRight className="w-6 h-6" /></button>
           </div>
         </div>
 
@@ -329,13 +323,14 @@ export function Home() {
           {featuredProperties.length > 0 ? (
             <div className="overflow-hidden">
                <div 
-                 className="flex gap-6 transition-transform duration-500 ease-out" 
-                 style={{ transform: `translateX(calc(-${currentIndex} * (33.333% + 1.25rem)))` }}
+                 ref={carouselRef}
+                 className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8 pt-4 -mx-4 px-4 md:mx-0 md:px-0" 
+                 style={{ scrollBehavior: 'smooth' }}
                >
                  {featuredProperties.map((property) => (
                    <motion.div 
                      key={property.id} 
-                     className="w-full md:w-[calc(33.333%-1rem)] shrink-0 bg-white rounded-[2.5rem] overflow-hidden border border-zinc-100 shadow-xl shadow-zinc-200/40 group/card mb-8"
+                     className="w-full md:w-[calc(33.333%-1rem)] shrink-0 snap-center bg-white rounded-[2.5rem] overflow-hidden border border-zinc-100 shadow-xl shadow-zinc-200/40 group/card mb-8"
                    >
                      <Link to={`/imovel/${property.id}`}>
                        <div className="aspect-[4/3] overflow-hidden relative bg-zinc-200">
@@ -348,13 +343,13 @@ export function Home() {
                            {property.purpose}
                          </div>
                        </div>
-                       <div className="p-8 space-y-4">
-                         <div className="flex items-center justify-between text-zinc-400 text-[10px] font-black uppercase tracking-widest">
-                           <div className="flex items-center gap-2"><MapPin className="w-3.5 h-3.5 text-emerald-500" />{property.neighborhood}</div>
+                       <div className="p-8 space-y-4 text-center">
+                         <div className="flex items-center justify-center gap-3 text-zinc-400 text-[10px] font-black uppercase tracking-widest">
+                           <div className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-emerald-500" />{property.neighborhood}</div>
                            <span className="text-zinc-300">#{property.property_code}</span>
                          </div>
-                         <h3 className="text-xl font-black text-zinc-900 tracking-tight leading-tight line-clamp-1 group-hover/card:text-emerald-600 transition-colors">{property.title}</h3>
-                         <p className="text-emerald-600 font-black text-2xl tracking-tighter">{formatPrice(property.price)}</p>
+                         <h3 className="text-xl font-black text-zinc-900 tracking-tight leading-tight line-clamp-1 group-hover/card:text-emerald-600 transition-colors mx-auto">{property.title}</h3>
+                         <p className="text-emerald-600 font-black text-2xl tracking-tighter mx-auto">{formatPrice(property.price)}</p>
                        </div>
                      </Link>
                    </motion.div>
