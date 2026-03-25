@@ -85,6 +85,7 @@ export function Home() {
   const [neighborhoods, setNeighborhoods] = useState<any[]>([]);
   const [blogPosts, setBlogPosts] = useState<any[]>([]);
   const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [dynamicRegions, setDynamicRegions] = useState<any[]>([]);
   const [selectedNeighborhood, setSelectedNeighborhood] = useState('');
   const [searchCode, setSearchCode] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -142,6 +143,44 @@ export function Home() {
 
       const { data: testData } = await supabase.from('testimonials').select('*').order('created_at', { ascending: false });
       if (testData) setTestimonials(testData);
+
+      // 5. Build dynamic regions from properties
+      const { data: propsForRegions } = await supabase.from('properties').select('city, neighborhood, images');
+      if (propsForRegions && propsForRegions.length > 0) {
+        const regionsMap = new Map();
+        propsForRegions.forEach(p => {
+          const city = p.city || 'Outras Localidades';
+          const nb = p.neighborhood || 'Centro';
+          
+          if (!regionsMap.has(city)) {
+            regionsMap.set(city, {
+              name: city,
+              rawLinks: new Set(),
+              img: p.images && p.images.length > 0 ? p.images[0] : null
+            });
+          }
+          
+          regionsMap.get(city).rawLinks.add(nb);
+          
+          if (!regionsMap.get(city).img && p.images && p.images.length > 0) {
+            regionsMap.get(city).img = p.images[0];
+          }
+        });
+
+        const defaultImages = [
+          'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?q=80&w=800',
+          'https://images.unsplash.com/photo-1544984243-ec57ea16fe25?q=80&w=800',
+          'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800'
+        ];
+
+        const regions = Array.from(regionsMap.values()).map((r: any, idx) => ({
+           name: r.name,
+           img: r.img || defaultImages[idx % defaultImages.length],
+           links: Array.from(r.rawLinks).slice(0, 4) // max 4 links per card
+        }));
+        
+        setDynamicRegions(regions);
+      }
     }
     fetchData();
   }, []);
@@ -329,6 +368,7 @@ export function Home() {
       </section>
 
       {/* --- NEW SECTION: [MÓDULO: CLUSTER_REGIONAL_SEO] --- */}
+      {dynamicRegions.length > 0 && (
       <section className="py-24 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -336,23 +376,7 @@ export function Home() {
             <div className="h-1.5 w-24 bg-emerald-500 mx-auto rounded-full" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { 
-                name: 'Rio de Janeiro', 
-                links: ['Casas na Zona Oeste', 'Apartamentos na Barra', 'Lançamentos Recreio'],
-                img: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?q=80&w=800'
-              },
-              { 
-                name: 'Niterói', 
-                links: ['Apartamentos em Icaraí', 'Casas em Santa Rosa', 'Coberturas Ingá'],
-                img: 'https://images.unsplash.com/photo-1544984243-ec57ea16fe25?q=80&w=800'
-              },
-              { 
-                name: 'Baixada Fluminense', 
-                links: ['Oportunidades em Nova Iguaçu', 'Casas em Duque de Caxias', 'Terrenos São João de Meriti'],
-                img: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800'
-              }
-            ].map((reg, idx) => (
+            {dynamicRegions.map((reg) => (
               <div key={reg.name} className="bg-zinc-50 rounded-[2rem] overflow-hidden border border-zinc-100 hover:shadow-xl transition-all group">
                 <div className="aspect-video relative overflow-hidden">
                   <img src={reg.img} alt={reg.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
@@ -360,9 +384,9 @@ export function Home() {
                   <h3 className="absolute bottom-6 left-8 text-2xl font-black text-white">{reg.name}</h3>
                 </div>
                 <div className="p-8 space-y-4">
-                  {reg.links.map(link => (
-                    <Link key={link} to="#" className="flex items-center justify-between text-zinc-500 hover:text-emerald-600 font-bold text-sm transition-colors border-b border-zinc-100 pb-2 last:border-0 group/link">
-                      {link} <ArrowUpRight className="w-4 h-4 text-zinc-300 group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" />
+                  {reg.links.map((link: string) => (
+                    <Link key={link} to={`/imoveis?bairro=${link}`} className="flex items-center justify-between text-zinc-500 hover:text-emerald-600 font-bold text-sm transition-colors border-b border-zinc-100 pb-2 last:border-0 group/link">
+                      Imóveis em {link} <ArrowUpRight className="w-4 h-4 text-zinc-300 group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" />
                     </Link>
                   ))}
                 </div>
@@ -371,6 +395,7 @@ export function Home() {
           </div>
         </div>
       </section>
+      )}
 
       {/* --- NEW SECTION: [MÓDULO: AUTORIDADE_EEAT] --- */}
       <section className="py-24 px-4 bg-zinc-900 text-white rounded-[4rem] mx-4 mb-24 overflow-hidden relative">
