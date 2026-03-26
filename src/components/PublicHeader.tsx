@@ -6,7 +6,16 @@ import { cn } from '../lib/utils';
 
 export function PublicHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navLinks = [
     { to: '/', label: 'Home' },
@@ -15,7 +24,12 @@ export function PublicHeader() {
   ];
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
+    <header className={cn(
+      "fixed top-0 w-full z-50 transition-all duration-500",
+      scrolled 
+        ? "bg-white/85 backdrop-blur-xl border-b border-zinc-200/50 shadow-sm py-0" 
+        : "bg-white/50 backdrop-blur-sm border-b border-transparent py-2"
+    )}>
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
         <Link to="/" className="text-2xl font-bold tracking-tighter text-emerald-600">
           ImobiFlow<span className="text-zinc-900">2026</span>

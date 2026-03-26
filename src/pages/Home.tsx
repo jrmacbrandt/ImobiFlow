@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { 
   ChevronLeft, 
   ChevronRight, 
@@ -80,6 +80,9 @@ const StructuredData = () => {
 };
 
 export function Home() {
+  const { scrollYProgress } = useScroll();
+  const parallaxY = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
+
   const [featuredProperties, setFeaturedProperties] = useState<any[]>([]);
   const [featuredList, setFeaturedList] = useState<any[]>([]);
   const [neighborhoods, setNeighborhoods] = useState<any[]>([]);
@@ -259,7 +262,13 @@ export function Home() {
       {/* --- REFINED: Featured Properties Section (Two-Column Layout) --- */}
       {featuredList.length > 0 && (
         <section className="py-24 px-4 bg-zinc-50 border-y border-zinc-100">
-          <div className="max-w-7xl mx-auto">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-7xl mx-auto"
+          >
             <div className="flex items-center gap-3 text-amber-500 font-bold text-xs uppercase tracking-[0.2em] mb-12">
               <div className="h-[1px] w-8 bg-amber-500/30" />
               <Star className="w-4 h-4 text-amber-500" fill="#fbbf24" stroke="#fbbf24" />
@@ -313,17 +322,17 @@ export function Home() {
                     <div className="pt-8 border-t border-zinc-200">
                       <Link 
                         to={`/imovel/${item.id}`}
-                        className="inline-flex items-center gap-4 bg-zinc-900 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-zinc-800 hover:translate-x-2 transition-all"
+                        className="inline-flex items-center gap-4 bg-zinc-900 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-emerald-600 transition-colors duration-400 group/btn"
                       >
-                        Ver Detalhes do Imóvel <ChevronRight className="w-5 h-5" />
+                        Ver Detalhes do Imóvel <ChevronRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
                       </Link>
                     </div>
                   </div>
                 </React.Fragment>
               ))}
             </div>
-          </div>
-        </section>
+            </motion.div>
+          </section>
       )}
 
 
@@ -349,12 +358,16 @@ export function Home() {
                  className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8 pt-4 -mx-4 px-4 md:mx-0 md:px-0" 
                  style={{ scrollBehavior: 'smooth' }}
                >
-                 {featuredProperties.map((property) => (
+                 {featuredProperties.map((property, index) => (
                    <motion.div 
                      key={property.id} 
-                     className="w-full md:w-[calc(33.333%-1rem)] shrink-0 snap-center bg-white rounded-[2.5rem] overflow-hidden border border-zinc-100 shadow-xl shadow-zinc-200/40 group/card mb-8"
+                     initial={{ opacity: 0, y: 30 }}
+                     whileInView={{ opacity: 1, y: 0 }}
+                     viewport={{ once: true, amount: 0.1 }}
+                     transition={{ duration: 0.5, delay: index * 0.1 }}
+                     className="w-full md:w-[calc(33.333%-1rem)] shrink-0 snap-center bg-white rounded-[2.5rem] overflow-hidden border border-zinc-100 shadow-xl shadow-zinc-200/40 hover:shadow-[0_20px_40px_-15px_rgba(139,92,246,0.3)] hover:scale-[1.02] transition-all duration-400 group/card mb-8"
                    >
-                     <Link to={`/imovel/${property.id}`}>
+                     <Link to={`/imovel/${property.id}`} className="block h-full">
                        <div className="aspect-[4/3] overflow-hidden relative bg-zinc-200">
                          {property.images && property.images.length > 0 ? (
                            <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-700" loading="lazy" />
@@ -393,8 +406,15 @@ export function Home() {
             <div className="h-1.5 w-24 bg-emerald-500 mx-auto rounded-full" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {dynamicRegions.map((reg) => (
-              <div key={reg.name} className="bg-zinc-50 rounded-[2rem] overflow-hidden border border-zinc-100 hover:shadow-xl transition-all group">
+            {dynamicRegions.map((reg, index) => (
+              <motion.div 
+                key={reg.name} 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-zinc-50 rounded-[2rem] overflow-hidden border border-zinc-100 hover:shadow-xl transition-all group"
+              >
                 <div className="aspect-video relative overflow-hidden">
                   <img src={reg.img} alt={reg.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/60 to-transparent" />
@@ -402,12 +422,12 @@ export function Home() {
                 </div>
                 <div className="p-8 space-y-4">
                   {reg.links.map((link: string) => (
-                    <Link key={link} to={`/imoveis?bairro=${link}`} className="flex items-center justify-between text-zinc-500 hover:text-emerald-600 font-bold text-sm transition-colors border-b border-zinc-100 pb-2 last:border-0 group/link">
-                      Imóveis em {link} <ArrowUpRight className="w-4 h-4 text-zinc-300 group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" />
+                    <Link key={link} to={`/imoveis?bairro=${link}`} className="flex items-center justify-between text-zinc-500 hover:text-emerald-600 font-bold text-sm transition-colors duration-400 border-b border-zinc-100 pb-2 last:border-0 group/link">
+                      Imóveis em {link} <ArrowUpRight className="w-4 h-4 text-zinc-300 group-hover/link:text-emerald-500 group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-all duration-400" />
                     </Link>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -420,14 +440,26 @@ export function Home() {
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
           <div className="lg:w-1/3 relative">
             <div className="aspect-square rounded-3xl overflow-hidden border-4 border-white/5 relative bg-zinc-800">
-               <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800" alt="Especialista" className="w-full h-full object-cover grayscale brightness-90 hover:grayscale-0 transition-all duration-700" loading="lazy" />
+               <motion.img 
+                 style={{ y: parallaxY }}
+                 src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800" 
+                 alt="Especialista" 
+                 className="w-full h-[120%] -mt-[10%] object-cover grayscale brightness-90 hover:grayscale-0 transition-all duration-700" 
+                 loading="lazy" 
+               />
                <div className="absolute bottom-4 left-4 right-4 bg-emerald-600/90 backdrop-blur-md p-3 rounded-2xl flex items-center justify-center gap-2">
                  <ShieldCheck className="w-5 h-5" />
                  <span className="text-[10px] font-black uppercase tracking-[0.2em]">Registrado CRECI RJ-000000</span>
                </div>
             </div>
           </div>
-          <div className="lg:w-2/3 space-y-8">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.6 }}
+            className="lg:w-2/3 space-y-8"
+          >
             <div className="inline-flex items-center gap-3 px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-500 text-xs font-black uppercase tracking-widest">
               <Award className="w-4 h-4" /> Especialista em Imóveis de Luxo
             </div>
@@ -436,20 +468,20 @@ export function Home() {
               Com mais de 15 anos de atuação exclusiva no mercado fluminense, nossa consultoria vai além da busca: entregamos inteligência imobiliária, segurança jurídica e discrição absoluta para investidores e famílias.
             </p>
             <div className="flex flex-wrap gap-6 pt-4">
-              <div className="flex items-center gap-3 bg-white/5 px-6 py-4 rounded-2xl border border-white/10">
+              <div className="flex items-center gap-3 bg-white/5 px-6 py-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
                 <CheckCircle2 className="w-5 h-5 text-emerald-500" />
                 <span className="text-sm font-bold tracking-tight">Análise de Risco</span>
               </div>
-              <div className="flex items-center gap-3 bg-white/5 px-6 py-4 rounded-2xl border border-white/10">
+              <div className="flex items-center gap-3 bg-white/5 px-6 py-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
                 <CheckCircle2 className="w-5 h-5 text-emerald-500" />
                 <span className="text-sm font-bold tracking-tight">Avaliação Patrimonial</span>
               </div>
             </div>
-            <a href="https://wa.me/5521999999999" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-emerald-600 hover:bg-emerald-500 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest transition-all shadow-xl shadow-emerald-600/20 group">
+            <a href="https://wa.me/5521999999999" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-emerald-600 hover:bg-emerald-500 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest transition-all duration-400 shadow-[0_10px_30px_-10px_rgba(16,185,129,0.5)] hover:shadow-[0_20px_40px_-10px_rgba(16,185,129,0.7)] group">
               <MessageCircle className="w-6 h-6" /> Consultar via WhatsApp (21)
               <ChevronRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
             </a>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -466,10 +498,17 @@ export function Home() {
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {blogPosts.length > 0 ? blogPosts.map((post) => (
-              <article key={post.id} className="bg-white rounded-[2.5rem] overflow-hidden border border-zinc-100 group shadow-sm hover:shadow-xl transition-all">
+            {blogPosts.length > 0 ? blogPosts.map((post, index) => (
+              <motion.article 
+                key={post.id} 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-white rounded-[2.5rem] overflow-hidden border border-zinc-100 group shadow-sm hover:shadow-xl transition-all"
+              >
                  <div className="aspect-video relative overflow-hidden bg-zinc-100">
-                    <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                    <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
                     <div className="absolute top-6 left-6 bg-zinc-900/80 backdrop-blur text-white text-[9px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full">
                       {post.author}
                     </div>
@@ -478,17 +517,17 @@ export function Home() {
                     <div className="flex items-center gap-3 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
                        <Calendar className="w-3.5 h-3.5" /> {new Date(post.created_at).toLocaleDateString('pt-BR')}
                     </div>
-                    <h3 className="text-2xl font-black text-zinc-900 tracking-tighter leading-tight group-hover:text-emerald-600 transition-colors">
+                    <h3 className="text-2xl font-black text-zinc-900 tracking-tighter leading-tight group-hover:text-emerald-600 transition-colors relative inline-block after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-emerald-600 after:left-0 after:-bottom-1 after:transition-all after:duration-300 group-hover:after:w-full">
                       {post.title}
                     </h3>
                     <p className="text-zinc-500 text-sm leading-relaxed line-clamp-3 font-medium">
                       {post.excerpt}
                     </p>
                     <Link to={`/blog/${post.slug}`} className="flex items-center gap-3 text-zinc-900 font-black uppercase tracking-widest text-[10px] group/btn pt-4">
-                      Ler Artigo Completo <div className="w-8 h-8 rounded-full border border-zinc-200 flex items-center justify-center group-hover/btn:bg-emerald-600 group-hover/btn:border-emerald-600 group-hover/btn:text-white transition-all"><ChevronRight className="w-4 h-4" /></div>
+                      Ler Artigo Completo <div className="w-8 h-8 rounded-full border border-zinc-200 flex items-center justify-center group-hover/btn:bg-emerald-600 group-hover/btn:border-emerald-600 group-hover/btn:text-white transition-all duration-300"><ChevronRight className="w-4 h-4" /></div>
                     </Link>
                  </div>
-              </article>
+              </motion.article>
             )) : (
               <div className="col-span-3 h-40 flex items-center justify-center text-zinc-400 italic">Carregando conteúdo...</div>
             )}
@@ -501,19 +540,29 @@ export function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16 space-y-4">
             <h2 className="text-4xl md:text-5xl font-black tracking-tighter text-zinc-900">Depoimentos de Clientes no Rio e Região</h2>
-            <div className="flex items-center justify-center gap-1 text-amber-400">
-              <Star fill="currentColor" className="w-5 h-5" /><Star fill="currentColor" className="w-5 h-5" /><Star fill="currentColor" className="w-5 h-5" /><Star fill="currentColor" className="w-5 h-5" /><Star fill="currentColor" className="w-5 h-5" />
-              <span className="text-zinc-400 font-bold text-sm ml-2">Rating 5/5</span>
+            <div className="flex items-center justify-center gap-3">
+              <div className="flex items-center justify-center gap-1 text-amber-400">
+                <Star fill="currentColor" className="w-5 h-5" /><Star fill="currentColor" className="w-5 h-5" /><Star fill="currentColor" className="w-5 h-5" /><Star fill="currentColor" className="w-5 h-5" /><Star fill="currentColor" className="w-5 h-5" />
+                <span className="text-zinc-400 font-bold text-sm ml-2">Rating 5/5</span>
+              </div>
+              <span className="px-3 py-1 bg-zinc-100 text-zinc-500 rounded-full text-[10px] font-black uppercase tracking-widest hidden md:inline-block">← Arraste →</span>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <motion.div 
+            className="flex gap-8 cursor-grab active:cursor-grabbing overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8 px-4 md:px-0"
+            drag="x"
+            dragConstraints={{ right: 0, left: -1500 }}
+          >
             {testimonials.map((t) => (
-              <div key={t.id} className="p-10 bg-zinc-50 border border-zinc-100 rounded-[2.5rem] relative group hover:bg-emerald-50/30 hover:border-emerald-100 transition-all">
-                 <div className="absolute top-10 right-10 text-emerald-100 font-serif text-8xl h-10 flex items-center opacity-40 group-hover:text-emerald-200 transition-colors">“</div>
-                 <p className="text-zinc-600 text-lg leading-relaxed mb-8 italic font-medium relative z-10">
+              <motion.div 
+                key={t.id} 
+                className="min-w-[320px] md:min-w-[400px] shrink-0 snap-center p-10 bg-zinc-50 border border-zinc-100 rounded-[2.5rem] relative group hover:bg-emerald-50/30 hover:border-emerald-100 transition-all duration-400"
+              >
+                 <div className="absolute top-10 right-10 text-emerald-100 font-serif text-8xl h-10 flex items-center opacity-40 group-hover:text-emerald-200 transition-colors pointer-events-none">“</div>
+                 <p className="text-zinc-600 text-lg leading-relaxed mb-8 italic font-medium relative z-10 pointer-events-none">
                    {t.content}
                  </p>
-                 <div className="flex items-center gap-4">
+                 <div className="flex items-center gap-4 pointer-events-none">
                     <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 font-black text-xs">
                       {t.name[0]}
                     </div>
@@ -522,9 +571,9 @@ export function Home() {
                       <p className="text-emerald-600 font-bold text-[10px] uppercase tracking-widest">{t.location} — RJ</p>
                     </div>
                  </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
