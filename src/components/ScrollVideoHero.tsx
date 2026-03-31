@@ -92,11 +92,13 @@ export const ScrollVideoHero: React.FC<ScrollVideoHeroProps> = ({ frameCount }) 
         render(latest);
     });
 
-    // Initial render
-    render(0);
+    // Initial render when images are loaded
+    if (imagesLoaded) {
+        render(frameIndex.get());
+    }
 
     return () => unsubscribe();
-  }, [images, frameIndex]);
+  }, [images, frameIndex, imagesLoaded]);
 
   // Responsive canvas sizing
   useEffect(() => {
@@ -108,7 +110,7 @@ export const ScrollVideoHero: React.FC<ScrollVideoHeroProps> = ({ frameCount }) 
             const ctx = canvasRef.current.getContext('2d');
             const img = images[Math.round(frameIndex.get())];
             if (ctx && img && img.complete) {
-                // ... reuse drawing logic or just trigger frameIndex change
+                // Re-render handled by being in sync with state or effect
             }
         }
     };
@@ -148,16 +150,6 @@ export const ScrollVideoHero: React.FC<ScrollVideoHeroProps> = ({ frameCount }) 
             </motion.div>
         </section>
 
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2">
-         <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Role para transformar</span>
-         <motion.div 
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-            className="w-[1px] h-12 bg-emerald-500/50"
-         />
       </div>
     </div>
   );
