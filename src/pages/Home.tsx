@@ -454,24 +454,27 @@ export function Home() {
 
       {/* --- NEW SECTION: [MÓDULO: AUTORIDADE_EEAT] --- STICKY REFACTOR 
           INSTRUÇÕES DE MANUTENÇÃO:
-          1. Esta seção é "travada" pelo container de [600vh] e a classe `sticky top-16`.
+          1. Esta seção é "travada" pelo container de [800vh] e a classe `sticky top-16`.
           2. Todas as animações são mapeadas para o `specialistScrollY` (0 a 1).
-             Sendo 0 o início da "trava" (sticky) e 0.98 o fim da trava.
-          3. Título tem REVELAÇÃO BIDIRECIONAL vinculada ao scroll (0.2 a 0.75).
-          4. REGRA DE OURO: A seção SÓ "destrava" (unstick) quando specialistScrollY cruza 1.0.
+             Sendo 0 o início da "trava" (sticky) e 0.75 o fim das revelações.
+          3. REGRA DE OURO: Adicionamos um "buffer" massivo (0.75 a 1.0) para que a seção
+             fique "parada" por muito tempo após o botão de WhatsApp aparecer 100%.
       */}
-      <div ref={specialistRef} className="relative h-[600vh] bg-zinc-950">
+      <div ref={specialistRef} className="relative h-[800vh] bg-zinc-950">
         <section className="sticky top-16 h-[calc(100vh-64px)] w-full flex items-center px-4 overflow-hidden border-y border-white/5 shadow-2xl">
           <motion.div 
-            style={{ scale: specialistScale, opacity: useTransform(specialistScrollY, [0, 0.2, 0.8, 1], [0.1, 1, 1, 0]) }}
+            style={{ 
+              scale: specialistScale, 
+              opacity: useTransform(specialistScrollY, [0, 0.1, 0.8, 1], [0.1, 1, 1, 0]) 
+            }}
             className="absolute inset-0 bg-emerald-500/5 blur-[150px] -z-10" 
           />
           <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 w-full">
             <div className="lg:w-1/3 relative">
               <motion.div 
                 style={{ 
-                  opacity: useTransform(specialistScrollY, [0, 0.15], [1, 1]), // Sempre 100% visível na trava (conforme Print 1)
-                  x: useTransform(specialistScrollY, [0, 0.15], [0, 0])
+                  opacity: useTransform(specialistScrollY, [0, 0.1], [1, 1]), // Sempre 100% visível na trava
+                  x: useTransform(specialistScrollY, [0, 0.1], [0, 0])
                 }}
                 className="aspect-[4/5] rounded-none overflow-hidden border border-white/10 relative bg-zinc-800 shadow-2xl"
               >
@@ -484,8 +487,8 @@ export function Home() {
                  />
                  <motion.div 
                    style={{ 
-                     opacity: useTransform(specialistScrollY, [0, 0.15], [1, 1]), // Fixo visível Conforme Print 1
-                     y: useTransform(specialistScrollY, [0, 0.15], [0, 0])
+                     opacity: useTransform(specialistScrollY, [0, 0.1], [1, 1]), // Fixo visível Conforme Print 1
+                     y: useTransform(specialistScrollY, [0, 0.1], [0, 0])
                    }}
                    className="absolute bottom-6 left-6 right-6 bg-emerald-600/95 backdrop-blur-xl p-4 rounded-none flex items-center justify-center gap-3 shadow-lg border border-white/10"
                  >
@@ -497,8 +500,8 @@ export function Home() {
             <div className="lg:w-2/3 space-y-10">
               <motion.div 
                 style={{ 
-                  opacity: useTransform(specialistScrollY, [0, 0.1], [0, 1]),
-                  y: useTransform(specialistScrollY, [0, 0.1], [20, 0])
+                  opacity: useTransform(specialistScrollY, [0, 0.05], [0, 1]),
+                  y: useTransform(specialistScrollY, [0, 0.05], [10, 0])
                 }}
                 className="inline-flex items-center gap-3 px-5 py-2 bg-white/5 border border-white/10 rounded-none text-emerald-400 text-xs font-black uppercase tracking-[0.2em]"
               >
@@ -507,9 +510,8 @@ export function Home() {
               
               <h2 className="text-4xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase">
                 { "Consultoria Imobiliária com Visão Estratégica.".split(" ").map((word, i, arr) => {
-                  // Mapeia o título para a zona central do scroll (0.15 a 0.7)
-                  const start = 0.15 + (i / arr.length) * 0.55;
-                  const end = start + 0.1;
+                  const start = 0.05 + (i / arr.length) * 0.45;
+                  const end = start + 0.07;
                   return (
                     <motion.span
                       key={i}
@@ -530,7 +532,7 @@ export function Home() {
 
               <motion.p 
                 style={{ 
-                  opacity: useTransform(specialistScrollY, [0.75, 0.85], [0, 1])
+                  opacity: useTransform(specialistScrollY, [0.5, 0.6], [0, 1])
                 }}
                 className="text-zinc-400 text-xl font-light leading-relaxed max-w-2xl uppercase tracking-wider"
               >
@@ -545,8 +547,8 @@ export function Home() {
                   <motion.div 
                     key={badge.text}
                     style={{ 
-                      opacity: useTransform(specialistScrollY, [0.85 + (i * 0.05), 0.92 + (i * 0.05)], [0, 1]),
-                      scale: useTransform(specialistScrollY, [0.85 + (i * 0.05), 0.92 + (i * 0.05)], [0.95, 1])
+                      opacity: useTransform(specialistScrollY, [0.6 + (i * 0.04), 0.65 + (i * 0.04)], [0, 1]),
+                      scale: useTransform(specialistScrollY, [0.6 + (i * 0.04), 0.65 + (i * 0.04)], [0.95, 1])
                     }}
                     className="flex items-center gap-4 bg-white/5 px-8 py-5 rounded-none border border-white/10 hover:bg-emerald-500/10 hover:border-emerald-500/30 transition-all cursor-default group"
                   >
@@ -558,8 +560,8 @@ export function Home() {
 
               <motion.div
                 style={{ 
-                  opacity: useTransform(specialistScrollY, [0.93, 0.98], [0, 1]),
-                  y: useTransform(specialistScrollY, [0.93, 0.98], [15, 0])
+                  opacity: useTransform(specialistScrollY, [0.7, 0.75], [0, 1]),
+                  y: useTransform(specialistScrollY, [0.7, 0.75], [10, 0])
                 }}
               >
                 <a href="https://wa.me/5521999999999" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-5 bg-white text-zinc-950 hover:bg-emerald-500 hover:text-zinc-950 px-12 py-6 rounded-none font-black uppercase tracking-[0.2em] transition-all duration-500 shadow-2xl group">
