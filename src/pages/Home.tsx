@@ -469,7 +469,7 @@ export function Home() {
             className="absolute inset-0 bg-emerald-500/5 blur-[150px] -z-10" 
           />
           <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-4 lg:gap-16 w-full">
-            <div className="w-full max-w-[160px] md:max-w-[280px] lg:max-w-none lg:w-1/3 relative shrink-0 mx-auto lg:mx-0">
+            <div className="w-full max-w-[140px] md:max-w-[280px] lg:max-w-none lg:w-1/3 relative shrink-0 mx-auto lg:mx-0">
               <motion.div 
                 style={{ 
                   opacity: 1, 
@@ -477,11 +477,10 @@ export function Home() {
                 }}
                 className="aspect-[4/5] rounded-none overflow-hidden border border-white/10 relative bg-zinc-800 shadow-2xl"
               >
-                 <motion.img 
-                   style={{ y: specialistParallax }}
+                 <img 
                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800" 
                    alt="Especialista" 
-                   className="w-full h-full lg:h-[130%] lg:-mt-[15%] object-cover grayscale brightness-90 hover:grayscale-0 transition-all duration-1000" 
+                   className="w-full h-full lg:h-[130%] lg:-mt-[15%] object-cover object-top" 
                    loading="lazy" 
                  />
                  <motion.div 
@@ -495,7 +494,7 @@ export function Home() {
                  </motion.div>
               </motion.div>
             </div>
-            <div className="lg:w-2/3 space-y-3 lg:space-y-8 text-center">
+            <div className="lg:w-2/3 space-y-2 lg:space-y-8 text-center">
               <motion.div 
                 style={{ 
                   opacity: useTransform(specialistScrollY, [0, 0.1], [0, 1]),
@@ -506,7 +505,7 @@ export function Home() {
                 <Award className="w-4 h-4" /> Especialista em Imóveis de Luxo
               </motion.div>
               
-              <h2 className="text-xl md:text-4xl lg:text-7xl font-black tracking-tighter leading-[1] lg:leading-[0.85] uppercase">
+              <h2 className="text-2xl md:text-4xl lg:text-7xl font-black tracking-tighter leading-[1] lg:leading-[0.85] uppercase">
                 { "Consultoria Imobiliária com Visão Estratégica.".split(" ").map((word, i, arr) => {
                   const start = 0.05 + (i / arr.length) * 0.35;
                   const end = start + 0.1;
@@ -532,7 +531,7 @@ export function Home() {
                 style={{ 
                   opacity: useTransform(specialistScrollY, [0.45, 0.55], [0, 1])
                 }}
-                className="text-zinc-400 text-[10px] md:text-base lg:text-xl font-light leading-relaxed max-w-2xl uppercase tracking-wider mx-auto"
+                className="text-zinc-400 text-xs md:text-base lg:text-xl font-light leading-relaxed max-w-2xl uppercase tracking-wider mx-auto"
               >
                 Com mais de 15 anos de atuação exclusiva no mercado fluminense, nossa consultoria vai além da busca: entregamos inteligência imobiliária, segurança jurídica e discrição absoluta para investidores e famílias.
               </motion.p>
