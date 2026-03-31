@@ -294,13 +294,13 @@ DECLARE
   p_count INTEGER;
   n_count INTEGER;
 BEGIN
-  WITH deleted AS (DELETE FROM property_views RETURNING 1)
+  WITH deleted AS (DELETE FROM property_views WHERE id IS NOT NULL RETURNING 1)
   SELECT count(*) INTO v_count FROM deleted;
 
-  WITH deleted AS (DELETE FROM properties RETURNING 1)
+  WITH deleted AS (DELETE FROM properties WHERE id IS NOT NULL RETURNING 1)
   SELECT count(*) INTO p_count FROM deleted;
 
-  WITH deleted AS (DELETE FROM neighborhoods RETURNING 1)
+  WITH deleted AS (DELETE FROM neighborhoods WHERE id IS NOT NULL RETURNING 1)
   SELECT count(*) INTO n_count FROM deleted;
 
   RETURN json_build_object(
