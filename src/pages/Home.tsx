@@ -94,6 +94,7 @@ export function Home() {
 
   const heroRef = useRef(null);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const testimonialsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -208,6 +209,30 @@ export function Home() {
         container.scrollTo({ left: container.scrollWidth, behavior: 'smooth' });
       } else {
         container.scrollBy({ left: -(cardWidth + 24), behavior: 'smooth' });
+      }
+    }
+  };
+
+  const nextTestimonial = () => {
+    if (testimonialsRef.current) {
+      const container = testimonialsRef.current;
+      const cardWidth = container.firstElementChild?.clientWidth || 0;
+      if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
+        container.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        container.scrollBy({ left: cardWidth + 32, behavior: 'smooth' }); // gap-8 is 32px
+      }
+    }
+  };
+  
+  const prevTestimonial = () => {
+    if (testimonialsRef.current) {
+      const container = testimonialsRef.current;
+      const cardWidth = container.firstElementChild?.clientWidth || 0;
+      if (container.scrollLeft <= 10) {
+        container.scrollTo({ left: container.scrollWidth, behavior: 'smooth' });
+      } else {
+        container.scrollBy({ left: -(cardWidth + 32), behavior: 'smooth' });
       }
     }
   };
@@ -538,18 +563,26 @@ export function Home() {
       {/* --- NEW SECTION: [MÓDULO: PROVA_SOCIAL] --- */}
       <section className="py-24 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16 space-y-4">
-            <h2 className="text-4xl md:text-5xl font-black tracking-tighter text-zinc-900">Depoimentos de Clientes no Rio e Região</h2>
-            <div className="flex items-center justify-center gap-3">
-              <div className="flex items-center justify-center gap-1 text-amber-400">
-                <Star fill="currentColor" className="w-5 h-5" /><Star fill="currentColor" className="w-5 h-5" /><Star fill="currentColor" className="w-5 h-5" /><Star fill="currentColor" className="w-5 h-5" /><Star fill="currentColor" className="w-5 h-5" />
-                <span className="text-zinc-400 font-bold text-sm ml-2">Rating 5/5</span>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-16">
+            <div className="text-left space-y-4">
+              <h2 className="text-4xl md:text-5xl font-black tracking-tighter text-zinc-900">Depoimentos de Clientes no Rio e Região</h2>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center justify-center gap-1 text-amber-400">
+                  <Star fill="currentColor" className="w-5 h-5" /><Star fill="currentColor" className="w-5 h-5" /><Star fill="currentColor" className="w-5 h-5" /><Star fill="currentColor" className="w-5 h-5" /><Star fill="currentColor" className="w-5 h-5" />
+                  <span className="text-zinc-400 font-bold text-sm ml-2">Rating 5/5</span>
+                </div>
+                <span className="px-3 py-1 bg-zinc-100 text-zinc-500 rounded-full text-[10px] font-black uppercase tracking-widest hidden md:inline-block">← Arraste →</span>
               </div>
-              <span className="px-3 py-1 bg-zinc-100 text-zinc-500 rounded-full text-[10px] font-black uppercase tracking-widest hidden md:inline-block">← Arraste →</span>
+            </div>
+            <div className="flex gap-4 self-end md:self-auto">
+               <button onClick={prevTestimonial} className="w-12 h-12 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all shadow-sm"><ChevronLeft className="w-6 h-6" /></button>
+               <button onClick={nextTestimonial} className="w-12 h-12 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all shadow-sm"><ChevronRight className="w-6 h-6" /></button>
             </div>
           </div>
           <div 
+            ref={testimonialsRef}
             className="flex gap-8 cursor-grab active:cursor-grabbing overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8 px-4 md:px-0"
+            style={{ scrollBehavior: 'smooth' }}
           >
             {testimonials.map((t) => (
               <motion.div 
