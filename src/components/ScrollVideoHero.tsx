@@ -120,8 +120,8 @@ export const ScrollVideoHero: React.FC<ScrollVideoHeroProps> = ({ frameCount }) 
   // Text Animations based on scroll ranges
   const titleOpacity = useTransform(smoothProgress, [0, 0.2, 0.4], [1, 1, 0]);
   const titleScale = useTransform(smoothProgress, [0, 0.4], [1, 0.8]);
-  const transformTitleOpacity = useTransform(smoothProgress, [0.4, 0.6, 0.8], [0, 1, 1]);
-  const transformTitleY = useTransform(smoothProgress, [0.4, 0.6], [50, 0]);
+  const transformTitleOpacity = useTransform(smoothProgress, [0, 0.2, 0.9], [0, 1, 1]);
+  const transformTitleY = useTransform(smoothProgress, [0, 0.2], [50, 0]);
 
   return (
     <div ref={containerRef} className="relative h-[300vh] bg-zinc-950">
@@ -129,7 +129,7 @@ export const ScrollVideoHero: React.FC<ScrollVideoHeroProps> = ({ frameCount }) 
       <div className="sticky top-0 left-0 w-full h-screen overflow-hidden">
         <canvas 
           ref={canvasRef} 
-          className="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-1000"
+          className="w-full h-full object-cover opacity-80 transition-all duration-1000"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/80 via-transparent to-zinc-950/90" />
       </div>
@@ -137,34 +137,15 @@ export const ScrollVideoHero: React.FC<ScrollVideoHeroProps> = ({ frameCount }) 
       {/* Content Overlays */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         
-        {/* Initial Hero Text */}
-        <section className="h-screen flex items-center justify-center sticky top-0 px-4">
-          <motion.div 
-            style={{ opacity: titleOpacity, scale: titleScale }}
-            className="max-w-7xl mx-auto text-center w-full"
-          >
-            <span className="inline-block px-6 py-2 bg-emerald-500 text-zinc-950 text-[10px] font-black uppercase tracking-[0.3em] mb-8">
-              Protocolo Imobiflow 2026
-            </span>
-            <h1 className="text-6xl md:text-[10rem] font-black tracking-tighter text-white mb-8 leading-[0.8] uppercase">
-              O Seu Lugar <br />
-              <span className="text-emerald-500 italic block mt-4">Redefinido.</span>
-            </h1>
-            <p className="text-zinc-400 text-lg md:text-2xl max-w-2xl mx-auto mb-12 leading-relaxed font-light uppercase tracking-widest">
-              Acompanhe a transformação do seu futuro lar em tempo real.
-            </p>
-          </motion.div>
-        </section>
-
         {/* Transformation Milestone Text */}
-        <section className="h-[100vh] flex items-center justify-center sticky top-0 pointer-events-none">
+        <section className="h-[200vh] flex items-center justify-center sticky top-0 pointer-events-none">
             <motion.div 
                 style={{ opacity: transformTitleOpacity, y: transformTitleY }}
-                className="max-w-4xl mx-auto text-center"
+                className="max-w-6xl mx-auto text-center px-4"
             >
-                <h2 className="text-4xl md:text-7xl font-black text-white tracking-tight leading-none uppercase">
-                   De uma estrutura <br />
-                   <span className="bg-emerald-500 text-zinc-950 px-4 py-2 inline-block mt-4">Para um Legado.</span>
+                <h2 className="text-4xl md:text-8xl font-black text-white tracking-tight leading-none uppercase">
+                   Não vendemos CASAS. <br />
+                   <span className="bg-emerald-500 text-zinc-950 px-6 py-2 inline-block mt-6">Realizamos SONHOS...</span>
                 </h2>
             </motion.div>
         </section>
