@@ -460,7 +460,7 @@ export function Home() {
              botão de WhatsApp atingir 100% de visibilidade (progress 0.98).
       */}
       <div ref={specialistRef} className="relative h-[450vh] bg-zinc-950">
-        <section className="sticky top-16 h-[calc(100vh-64px)] w-full flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-16 px-6 lg:px-4 overflow-y-auto lg:overflow-hidden border-y border-white/5 shadow-2xl py-8 lg:py-0">
+        <section className="sticky top-16 h-[calc(100vh-64px)] w-full flex flex-col lg:flex-row items-center justify-center gap-4 lg:gap-16 px-6 lg:px-4 overflow-y-auto lg:overflow-hidden border-y border-white/5 shadow-2xl py-12 lg:py-16">
           <motion.div 
             style={{ 
               scale: specialistScale, 
@@ -469,7 +469,7 @@ export function Home() {
             className="absolute inset-0 bg-emerald-500/5 blur-[150px] -z-10" 
           />
           <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 w-full">
-            <div className="w-full max-w-[240px] lg:max-w-none lg:w-1/3 relative shrink-0">
+            <div className="w-full max-w-[200px] lg:max-w-none md:max-w-[300px] lg:w-1/3 relative shrink-0">
               <motion.div 
                 style={{ 
                   opacity: 1, 
@@ -495,7 +495,7 @@ export function Home() {
                  </motion.div>
               </motion.div>
             </div>
-            <div className="lg:w-2/3 space-y-4 lg:space-y-10 text-center lg:text-left">
+            <div className="lg:w-2/3 space-y-4 lg:space-y-8 text-center">
               <motion.div 
                 style={{ 
                   opacity: useTransform(specialistScrollY, [0, 0.1], [0, 1]),
@@ -508,7 +508,7 @@ export function Home() {
               
               <h2 className="text-2xl md:text-7xl font-black tracking-tighter leading-[1] lg:leading-[0.85] uppercase">
                 { "Consultoria Imobiliária com Visão Estratégica.".split(" ").map((word, i, arr) => {
-                  const start = 0.1 + (i / arr.length) * 0.55;
+                  const start = 0.05 + (i / arr.length) * 0.35;
                   const end = start + 0.1;
                   return (
                     <motion.span
@@ -518,7 +518,7 @@ export function Home() {
                         y: useTransform(specialistScrollY, [start, end], [10, 0])
                       }}
                       className={cn(
-                        "inline-block mr-3",
+                        "inline-block mr-2 md:mr-3",
                         word.toLowerCase().includes("estrat") && "text-emerald-500 italic font-serif"
                       )}
                     >
@@ -530,14 +530,14 @@ export function Home() {
 
               <motion.p 
                 style={{ 
-                  opacity: useTransform(specialistScrollY, [0.7, 0.82], [0, 1])
+                  opacity: useTransform(specialistScrollY, [0.45, 0.55], [0, 1])
                 }}
-                className="text-zinc-400 text-sm md:text-xl font-light leading-relaxed max-w-2xl uppercase tracking-wider mx-auto lg:mx-0"
+                className="text-zinc-400 text-xs md:text-xl font-light leading-relaxed max-w-2xl uppercase tracking-wider mx-auto"
               >
                 Com mais de 15 anos de atuação exclusiva no mercado fluminense, nossa consultoria vai além da busca: entregamos inteligência imobiliária, segurança jurídica e discrição absoluta para investidores e famílias.
               </motion.p>
 
-              <div className="flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-3 lg:gap-6 pt-2 lg:pt-4">
+              <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 lg:gap-6 pt-2 lg:pt-4">
                 {[
                   { text: "Análise de Risco", icon: CheckCircle2 },
                   { text: "Avaliação Patrimonial", icon: CheckCircle2 }
@@ -545,8 +545,8 @@ export function Home() {
                   <motion.div 
                     key={badge.text}
                     style={{ 
-                      opacity: useTransform(specialistScrollY, [0.82 + (i * 0.04), 0.88 + (i * 0.04)], [0, 1]),
-                      scale: useTransform(specialistScrollY, [0.82 + (i * 0.04), 0.88 + (i * 0.04)], [0.95, 1])
+                      opacity: useTransform(specialistScrollY, [0.55 + (i * 0.04), 0.65 + (i * 0.04)], [0, 1]),
+                      scale: useTransform(specialistScrollY, [0.55 + (i * 0.04), 0.65 + (i * 0.04)], [0.95, 1])
                     }}
                     className="flex items-center gap-4 bg-white/5 px-4 py-3 lg:px-8 lg:py-5 rounded-none border border-white/10 hover:bg-emerald-500/10 hover:border-emerald-500/30 transition-all cursor-default group"
                   >
@@ -558,11 +558,11 @@ export function Home() {
 
               <motion.div
                 style={{ 
-                  opacity: useTransform(specialistScrollY, [0.9, 0.98], [0, 1]),
-                  y: useTransform(specialistScrollY, [0.9, 0.98], [15, 0])
+                  opacity: useTransform(specialistScrollY, [0.75, 0.85], [0, 1]),
+                  y: useTransform(specialistScrollY, [0.75, 0.85], [15, 0])
                 }}
               >
-                <a href="https://wa.me/5521999999999" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 lg:gap-5 bg-white text-zinc-950 hover:bg-emerald-500 hover:text-zinc-950 px-6 py-4 lg:px-12 lg:py-6 rounded-none font-black uppercase tracking-[0.2em] transition-all duration-500 shadow-2xl group text-xs lg:text-base">
+                <a href="https://wa.me/5521999999999" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 lg:gap-5 bg-white text-zinc-950 hover:bg-emerald-500 hover:text-zinc-950 px-6 py-4 lg:px-12 lg:py-6 rounded-none font-black uppercase tracking-[0.2em] transition-all duration-500 shadow-2xl group text-[10px] lg:text-base">
                   <MessageCircle className="w-7 h-7" /> Consultar via WhatsApp (21)
                   <ChevronRight className="w-6 h-6 group-hover:translate-x-3 transition-transform" />
                 </a>
