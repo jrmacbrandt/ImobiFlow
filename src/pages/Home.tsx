@@ -548,15 +548,13 @@ export function Home() {
               <span className="px-3 py-1 bg-zinc-100 text-zinc-500 rounded-full text-[10px] font-black uppercase tracking-widest hidden md:inline-block">← Arraste →</span>
             </div>
           </div>
-          <motion.div 
+          <div 
             className="flex gap-8 cursor-grab active:cursor-grabbing overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8 px-4 md:px-0"
-            drag="x"
-            dragConstraints={{ right: 0, left: -1500 }}
           >
             {testimonials.map((t) => (
               <motion.div 
                 key={t.id} 
-                className="min-w-[320px] md:min-w-[400px] shrink-0 snap-center p-10 bg-zinc-50 border border-zinc-100 rounded-[2.5rem] relative group hover:bg-emerald-50/30 hover:border-emerald-100 transition-all duration-400"
+                className="w-[85vw] md:w-[400px] shrink-0 snap-center p-10 bg-zinc-50 border border-zinc-100 rounded-[2.5rem] relative group hover:bg-emerald-50/30 hover:border-emerald-100 transition-all duration-400"
               >
                  <div className="absolute top-10 right-10 text-emerald-100 font-serif text-8xl h-10 flex items-center opacity-40 group-hover:text-emerald-200 transition-colors pointer-events-none">“</div>
                  <p className="text-zinc-600 text-lg leading-relaxed mb-8 italic font-medium relative z-10 pointer-events-none">
@@ -573,7 +571,7 @@ export function Home() {
                  </div>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
