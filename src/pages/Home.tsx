@@ -567,10 +567,6 @@ export function Home() {
             <div className="text-left space-y-4">
               <h2 className="text-4xl md:text-5xl font-black tracking-tighter text-zinc-900">Depoimentos de Clientes no Rio e Região</h2>
               <div className="flex items-center gap-3">
-                <div className="flex items-center justify-center gap-1 text-amber-400">
-                  <Star fill="currentColor" className="w-5 h-5" /><Star fill="currentColor" className="w-5 h-5" /><Star fill="currentColor" className="w-5 h-5" /><Star fill="currentColor" className="w-5 h-5" /><Star fill="currentColor" className="w-5 h-5" />
-                  <span className="text-zinc-400 font-bold text-sm ml-2">Rating 5/5</span>
-                </div>
                 <span className="px-3 py-1 bg-zinc-100 text-zinc-500 rounded-full text-[10px] font-black uppercase tracking-widest hidden md:inline-block">← Arraste →</span>
               </div>
             </div>
@@ -584,12 +580,27 @@ export function Home() {
             className="flex gap-8 cursor-grab active:cursor-grabbing overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8 px-4 md:px-0"
             style={{ scrollBehavior: 'smooth' }}
           >
-            {testimonials.map((t) => (
+            {testimonials.map((t, index) => {
+              const stars = index % 3 === 0 ? 4 : 5;
+              const ratingText = stars === 5 ? 'Confiança e Satisfação' : 'Credibilidade Comprovada';
+
+              return (
               <motion.div 
                 key={t.id} 
                 className="w-[85vw] md:w-[400px] shrink-0 snap-center p-10 bg-zinc-50 border border-zinc-100 rounded-[2.5rem] relative group hover:bg-emerald-50/30 hover:border-emerald-100 transition-all duration-400"
               >
-                 <div className="absolute top-10 right-10 text-emerald-100 font-serif text-8xl h-10 flex items-center opacity-40 group-hover:text-emerald-200 transition-colors pointer-events-none">“</div>
+                 <div className="flex items-start justify-between mb-8 pointer-events-none">
+                   <div className="space-y-1.5 mt-2">
+                     <div className="flex items-center gap-1">
+                       {[...Array(5)].map((_, i) => (
+                         <Star key={i} fill={i < stars ? "currentColor" : "none"} className={`w-4 h-4 ${i < stars ? 'text-amber-400' : 'text-zinc-300'}`} />
+                       ))}
+                     </div>
+                     <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">{ratingText}</p>
+                   </div>
+                   <div className="text-emerald-100 font-serif text-8xl h-10 flex items-center opacity-40 group-hover:text-emerald-200 transition-colors">“</div>
+                 </div>
+                 
                  <p className="text-zinc-600 text-lg leading-relaxed mb-8 italic font-medium relative z-10 pointer-events-none">
                    {t.content}
                  </p>
@@ -603,7 +614,8 @@ export function Home() {
                     </div>
                  </div>
               </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
