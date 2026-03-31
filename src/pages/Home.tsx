@@ -452,7 +452,15 @@ export function Home() {
       </section>
       )}
 
-      <div ref={specialistRef} className="relative h-[350vh] bg-zinc-950">
+      {/* --- NEW SECTION: [MÓDULO: AUTORIDADE_EEAT] --- STICKY REFACTOR 
+          INSTRUÇÕES DE MANUTENÇÃO:
+          1. Esta seção é "travada" pelo container de [500vh] e a classe `sticky top-16`.
+          2. Todas as animações são mapeadas para o `specialistScrollY` (0 a 1).
+          3. O Título usa mapeamento dinâmico (start/end) baseado no número de palavras.
+          4. REGRA DE OURO: A seção SÓ "destrava" (unstick) quando o botão de WhatsApp 
+             aparece 100% (final do progress em 0.98).
+      */}
+      <div ref={specialistRef} className="relative h-[500vh] bg-zinc-950">
         <section className="sticky top-16 h-[calc(100vh-64px)] w-full flex items-center px-4 overflow-hidden">
           <motion.div 
             style={{ scale: specialistScale }}
@@ -462,8 +470,8 @@ export function Home() {
             <div className="lg:w-1/3 relative">
               <motion.div 
                 style={{ 
-                  opacity: useTransform(specialistScrollY, [0, 0.1], [0.3, 1]),
-                  x: useTransform(specialistScrollY, [0, 0.1], [-20, 0])
+                  opacity: useTransform(specialistScrollY, [0, 0.05], [1, 1]),
+                  x: useTransform(specialistScrollY, [0, 0.05], [0, 0])
                 }}
                 className="aspect-[4/5] rounded-none overflow-hidden border border-white/10 relative bg-zinc-800 shadow-2xl"
               >
@@ -476,8 +484,8 @@ export function Home() {
                  />
                  <motion.div 
                    style={{ 
-                     opacity: useTransform(specialistScrollY, [0.05, 0.15], [0, 1]),
-                     y: useTransform(specialistScrollY, [0.05, 0.15], [10, 0])
+                     opacity: useTransform(specialistScrollY, [0, 0.1], [1, 1]),
+                     y: useTransform(specialistScrollY, [0, 0.1], [0, 0])
                    }}
                    className="absolute bottom-6 left-6 right-6 bg-emerald-600/95 backdrop-blur-xl p-4 rounded-none flex items-center justify-center gap-3 shadow-lg border border-white/10"
                  >
@@ -489,8 +497,8 @@ export function Home() {
             <div className="lg:w-2/3 space-y-10">
               <motion.div 
                 style={{ 
-                  opacity: useTransform(specialistScrollY, [0.1, 0.2], [0, 1]),
-                  y: useTransform(specialistScrollY, [0.1, 0.2], [10, 0])
+                  opacity: useTransform(specialistScrollY, [0.05, 0.15], [0, 1]),
+                  y: useTransform(specialistScrollY, [0.05, 0.15], [10, 0])
                 }}
                 className="inline-flex items-center gap-3 px-5 py-2 bg-white/5 border border-white/10 rounded-none text-emerald-400 text-xs font-black uppercase tracking-[0.2em]"
               >
@@ -499,7 +507,7 @@ export function Home() {
               
               <h2 className="text-4xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase">
                 { "Consultoria Imobiliária com Visão Estratégica.".split(" ").map((word, i, arr) => {
-                  const start = 0.2 + (i / arr.length) * 0.4;
+                  const start = 0.15 + (i / arr.length) * 0.45;
                   const end = start + 0.08;
                   return (
                     <motion.span
@@ -549,8 +557,8 @@ export function Home() {
 
               <motion.div
                 style={{ 
-                  opacity: useTransform(specialistScrollY, [0.85, 0.92], [0, 1]),
-                  y: useTransform(specialistScrollY, [0.85, 0.92], [10, 0])
+                  opacity: useTransform(specialistScrollY, [0.85, 0.98], [0, 1]),
+                  y: useTransform(specialistScrollY, [0.85, 0.98], [10, 0])
                 }}
               >
                 <a href="https://wa.me/5521999999999" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-5 bg-white text-zinc-950 hover:bg-emerald-500 hover:text-zinc-950 px-12 py-6 rounded-none font-black uppercase tracking-[0.2em] transition-all duration-500 shadow-2xl group">
