@@ -26,6 +26,7 @@ import {
   Clock
 } from 'lucide-react';
 import { PublicHeader } from '../components/PublicHeader';
+import { ScrollVideoHero } from '../components/ScrollVideoHero';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { cn, formatPrice } from '../lib/utils';
 import { MOCK_PROPERTIES } from '../lib/mockData';
@@ -242,31 +243,12 @@ export function Home() {
       <StructuredData />
       <PublicHeader />
 
-      {/* --- Hero Section --- */}
-      <section className="pt-40 pb-20 px-4 relative overflow-hidden min-h-[80vh] flex items-center">
-        <motion.div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 opacity-40">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-100/50 blur-[120px] rounded-full" />
-          <div className="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] bg-amber-100/50 blur-[100px] rounded-full" />
-        </motion.div>
-        <motion.div className="max-w-7xl mx-auto text-center w-full">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="inline-block px-4 py-1.5 bg-emerald-50 text-emerald-700 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
-              Plataforma Imobiliária 2026
-            </span>
-            <h1 className="text-5xl md:text-8xl font-black tracking-tighter text-zinc-900 mb-8 leading-[0.9]">
-              Encontre seu lugar no <br />
-              <span className="text-emerald-600 italic font-serif">Rio e Baixada.</span>
-            </h1>
-            <p className="text-zinc-500 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
-              A tecnologia do futuro para encontrar o seu lar hoje. Simples, rápido e com curadoria especializada.
-            </p>
-          </motion.div>
-        </motion.div>
-      </section>
+      {/* --- Radical Scroll Video Hero Section --- */}
+      <ScrollVideoHero frameCount={80} />
 
       {/* --- Search Bar Section --- */}
       <section className="px-4 -mt-16 md:-mt-12 relative z-30 mb-8 md:mb-16">
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} className="max-w-4xl mx-auto bg-white p-2 rounded-[2rem] shadow-2xl shadow-zinc-200/60 flex flex-col md:flex-row gap-2 border border-zinc-100">
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} className="max-w-4xl mx-auto bg-white p-2 rounded-none shadow-2xl shadow-zinc-200/60 flex flex-col md:flex-row gap-2 border border-zinc-100">
           <div className="flex-[2] flex flex-col justify-center px-8 py-4 border-b md:border-b-0 md:border-r border-zinc-100 relative group/select">
             <label className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1 flex items-center gap-2"><MapPin className="w-3 h-3 text-emerald-500" />Onde você quer morar?</label>
             <div className="relative flex items-center">
@@ -280,7 +262,7 @@ export function Home() {
           <div className="flex-1 flex items-center px-6 gap-3 border-b md:border-b-0 md:border-r border-zinc-100 relative">
             <Search className="w-5 h-5 text-zinc-400 z-10" /><input type="text" placeholder="Cód. Imóvel" maxLength={4} value={searchCode} onChange={e => setSearchCode(e.target.value.replace(/\D/g, ''))} className="w-full py-4 outline-none text-zinc-900 placeholder:text-zinc-400 font-medium bg-transparent" />
           </div>
-          <Link to={`/imoveis${selectedNeighborhood || searchCode ? '?' : ''}${selectedNeighborhood ? `bairro=${selectedNeighborhood}` : ''}${selectedNeighborhood && searchCode ? '&' : ''}${searchCode ? `codigo=${searchCode}` : ''}`} className="bg-zinc-900 text-white px-10 py-4 rounded-[1.5rem] font-bold hover:bg-zinc-800 transition-all flex items-center justify-center gap-2 shadow-lg shadow-zinc-200"><Search className="w-5 h-5" />Explorar Agora</Link>
+          <Link to={`/imoveis${selectedNeighborhood || searchCode ? '?' : ''}${selectedNeighborhood ? `bairro=${selectedNeighborhood}` : ''}${selectedNeighborhood && searchCode ? '&' : ''}${searchCode ? `codigo=${searchCode}` : ''}`} className="bg-zinc-900 text-white px-10 py-4 rounded-none font-bold hover:bg-emerald-600 transition-all flex items-center justify-center gap-2 shadow-lg shadow-zinc-200"><Search className="w-5 h-5" />Explorar Agora</Link>
         </motion.div>
       </section>
 
