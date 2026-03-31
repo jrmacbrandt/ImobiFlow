@@ -118,10 +118,8 @@ export const ScrollVideoHero: React.FC<ScrollVideoHeroProps> = ({ frameCount }) 
   }, [images, frameIndex]);
 
   // Text Animations based on scroll ranges
-  const titleOpacity = useTransform(smoothProgress, [0, 0.2, 0.4], [1, 1, 0]);
-  const titleScale = useTransform(smoothProgress, [0, 0.4], [1, 0.8]);
-  const transformTitleOpacity = useTransform(smoothProgress, [0, 0.2, 0.9], [0, 1, 1]);
-  const transformTitleY = useTransform(smoothProgress, [0, 0.2], [50, 0]);
+  const transformTitleOpacity = useTransform(smoothProgress, [0.8, 0.9, 1.0], [0, 1, 1]);
+  const transformTitleY = useTransform(smoothProgress, [0.8, 0.9], [20, 0]);
 
   return (
     <div ref={containerRef} className="relative h-[300vh] bg-zinc-950">
@@ -129,23 +127,23 @@ export const ScrollVideoHero: React.FC<ScrollVideoHeroProps> = ({ frameCount }) 
       <div className="sticky top-0 left-0 w-full h-screen overflow-hidden">
         <canvas 
           ref={canvasRef} 
-          className="w-full h-full object-cover opacity-80 transition-all duration-1000"
+          className="w-full h-full object-cover opacity-90 transition-all duration-1000"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/80 via-transparent to-zinc-950/90" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-zinc-950" />
       </div>
 
       {/* Content Overlays */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         
-        {/* Transformation Milestone Text */}
-        <section className="h-[200vh] flex items-center justify-center sticky top-0 pointer-events-none">
+        {/* Transformation Milestone Text - REPOSITIONED & RESIZED */}
+        <section className="h-[280vh] flex items-end justify-center sticky top-0 pointer-events-none pb-24 md:pb-32">
             <motion.div 
                 style={{ opacity: transformTitleOpacity, y: transformTitleY }}
-                className="max-w-6xl mx-auto text-center px-4"
+                className="max-w-4xl mx-auto text-center px-6"
             >
-                <h2 className="text-4xl md:text-8xl font-black text-white tracking-tight leading-none uppercase">
+                <h2 className="text-xl md:text-3xl font-black text-white tracking-widest leading-none uppercase">
                    Não vendemos CASAS. <br />
-                   <span className="bg-emerald-500 text-zinc-950 px-6 py-2 inline-block mt-6">Realizamos SONHOS...</span>
+                   <span className="bg-emerald-500 text-zinc-950 px-3 py-1 inline-block mt-3">Realizamos SONHOS...</span>
                 </h2>
             </motion.div>
         </section>
