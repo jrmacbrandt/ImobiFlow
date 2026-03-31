@@ -369,10 +369,6 @@ export function Home() {
             <span className="text-emerald-600 font-black text-[10px] uppercase tracking-[0.4em] mb-4 block">EXCLUSIVIDADES</span>
             <h2 className="text-4xl font-black text-zinc-900 tracking-tighter">Destaques Premium</h2>
           </div>
-          <div className="flex gap-4">
-             <button onClick={prevSlide} className="w-12 h-12 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all shadow-sm"><ChevronLeft className="w-6 h-6" /></button>
-             <button onClick={nextSlide} className="w-12 h-12 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all shadow-sm"><ChevronRight className="w-6 h-6" /></button>
-          </div>
         </div>
 
         <div className="max-w-7xl mx-auto relative px-4">
@@ -415,7 +411,13 @@ export function Home() {
                    </motion.div>
                  ))}
                </div>
-            </div>
+                
+                {/* Setas Centralizadas Destaques */}
+                <div className="flex justify-center gap-4 mt-8">
+                  <button onClick={prevSlide} className="w-12 h-12 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all shadow-sm"><ChevronLeft className="w-6 h-6" /></button>
+                  <button onClick={nextSlide} className="w-12 h-12 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all shadow-sm"><ChevronRight className="w-6 h-6" /></button>
+                </div>
+             </div>
           ) : (
             <div className="h-[400px] flex items-center justify-center text-zinc-400 italic">Nenhum imóvel em destaque no momento.</div>
           )}
@@ -570,10 +572,6 @@ export function Home() {
                 <span className="px-3 py-1 bg-zinc-100 text-zinc-500 rounded-full text-[10px] font-black uppercase tracking-widest hidden md:inline-block">← Arraste →</span>
               </div>
             </div>
-            <div className="flex gap-4 self-end md:self-auto">
-               <button onClick={prevTestimonial} className="w-12 h-12 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all shadow-sm"><ChevronLeft className="w-6 h-6" /></button>
-               <button onClick={nextTestimonial} className="w-12 h-12 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all shadow-sm"><ChevronRight className="w-6 h-6" /></button>
-            </div>
           </div>
           <div 
             ref={testimonialsRef}
@@ -616,6 +614,12 @@ export function Home() {
               </motion.div>
               );
             })}
+          </div>
+          
+          {/* Setas Centralizadas Depoimentos */}
+          <div className="flex justify-center gap-4 mt-8">
+            <button onClick={prevTestimonial} className="w-12 h-12 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all shadow-sm"><ChevronLeft className="w-6 h-6" /></button>
+            <button onClick={nextTestimonial} className="w-12 h-12 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white transition-all shadow-sm"><ChevronRight className="w-6 h-6" /></button>
           </div>
         </div>
       </section>
