@@ -103,7 +103,7 @@ export function Home() {
     offset: ["start start", "end end"]
   });
 
-  const specialistParallax = useTransform(specialistScrollY, [0, 1], [-60, 60]);
+  const specialistParallax = useTransform(specialistScrollY, [0, 1], [-20, 20]);
   const specialistScale = useTransform(specialistScrollY, [0, 0.5, 1], [0.95, 1, 0.95]);
 
   useEffect(() => {
@@ -459,8 +459,8 @@ export function Home() {
           3. REGRA DE OURO (SINCRONIA): A seção destrava quase imediatamente após o 
              botão de WhatsApp atingir 100% de visibilidade (progress 0.98).
       */}
-      <div ref={specialistRef} className="relative h-[450vh] bg-zinc-950">
-        <section className="sticky top-16 h-[calc(100vh-64px)] w-full flex flex-col lg:flex-row items-center justify-center gap-4 lg:gap-16 px-6 lg:px-4 overflow-y-auto lg:overflow-hidden border-y border-white/5 shadow-2xl py-12 lg:py-16">
+      <div ref={specialistRef} className="relative h-[200vh] lg:h-[450vh] bg-zinc-950">
+        <section className="sticky top-16 h-[calc(100vh-64px)] w-full flex items-center justify-center px-6 lg:px-4 overflow-hidden border-y border-white/5 shadow-2xl">
           <motion.div 
             style={{ 
               scale: specialistScale, 
@@ -468,8 +468,8 @@ export function Home() {
             }}
             className="absolute inset-0 bg-emerald-500/5 blur-[150px] -z-10" 
           />
-          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 w-full">
-            <div className="w-full max-w-[200px] lg:max-w-none md:max-w-[300px] lg:w-1/3 relative shrink-0">
+          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-4 lg:gap-16 w-full">
+            <div className="w-full max-w-[160px] md:max-w-[280px] lg:max-w-none lg:w-1/3 relative shrink-0 mx-auto lg:mx-0">
               <motion.div 
                 style={{ 
                   opacity: 1, 
@@ -481,7 +481,7 @@ export function Home() {
                    style={{ y: specialistParallax }}
                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800" 
                    alt="Especialista" 
-                   className="w-full h-[130%] -mt-[15%] object-cover grayscale brightness-90 hover:grayscale-0 transition-all duration-1000" 
+                   className="w-full h-full lg:h-[130%] lg:-mt-[15%] object-cover grayscale brightness-90 hover:grayscale-0 transition-all duration-1000" 
                    loading="lazy" 
                  />
                  <motion.div 
@@ -495,18 +495,18 @@ export function Home() {
                  </motion.div>
               </motion.div>
             </div>
-            <div className="lg:w-2/3 space-y-4 lg:space-y-8 text-center">
+            <div className="lg:w-2/3 space-y-3 lg:space-y-8 text-center">
               <motion.div 
                 style={{ 
                   opacity: useTransform(specialistScrollY, [0, 0.1], [0, 1]),
                   y: useTransform(specialistScrollY, [0, 0.1], [10, 0])
                 }}
-                className="inline-flex items-center gap-3 px-5 py-2 bg-white/5 border border-white/10 rounded-none text-emerald-400 text-xs font-black uppercase tracking-[0.2em]"
+                className="inline-flex items-center gap-2 lg:gap-3 px-3 py-1.5 lg:px-5 lg:py-2 bg-white/5 border border-white/10 rounded-none text-emerald-400 text-[10px] lg:text-xs font-black uppercase tracking-[0.2em]"
               >
                 <Award className="w-4 h-4" /> Especialista em Imóveis de Luxo
               </motion.div>
               
-              <h2 className="text-2xl md:text-7xl font-black tracking-tighter leading-[1] lg:leading-[0.85] uppercase">
+              <h2 className="text-xl md:text-4xl lg:text-7xl font-black tracking-tighter leading-[1] lg:leading-[0.85] uppercase">
                 { "Consultoria Imobiliária com Visão Estratégica.".split(" ").map((word, i, arr) => {
                   const start = 0.05 + (i / arr.length) * 0.35;
                   const end = start + 0.1;
@@ -532,12 +532,12 @@ export function Home() {
                 style={{ 
                   opacity: useTransform(specialistScrollY, [0.45, 0.55], [0, 1])
                 }}
-                className="text-zinc-400 text-xs md:text-xl font-light leading-relaxed max-w-2xl uppercase tracking-wider mx-auto"
+                className="text-zinc-400 text-[10px] md:text-base lg:text-xl font-light leading-relaxed max-w-2xl uppercase tracking-wider mx-auto"
               >
                 Com mais de 15 anos de atuação exclusiva no mercado fluminense, nossa consultoria vai além da busca: entregamos inteligência imobiliária, segurança jurídica e discrição absoluta para investidores e famílias.
               </motion.p>
 
-              <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 lg:gap-6 pt-2 lg:pt-4">
+              <div className="flex flex-row flex-wrap justify-center gap-2 lg:gap-6 pt-1 lg:pt-4">
                 {[
                   { text: "Análise de Risco", icon: CheckCircle2 },
                   { text: "Avaliação Patrimonial", icon: CheckCircle2 }
@@ -548,9 +548,9 @@ export function Home() {
                       opacity: useTransform(specialistScrollY, [0.55 + (i * 0.04), 0.65 + (i * 0.04)], [0, 1]),
                       scale: useTransform(specialistScrollY, [0.55 + (i * 0.04), 0.65 + (i * 0.04)], [0.95, 1])
                     }}
-                    className="flex items-center gap-4 bg-white/5 px-4 py-3 lg:px-8 lg:py-5 rounded-none border border-white/10 hover:bg-emerald-500/10 hover:border-emerald-500/30 transition-all cursor-default group"
+                    className="flex items-center gap-2 lg:gap-4 bg-white/5 px-3 py-2 lg:px-8 lg:py-5 rounded-none border border-white/10 hover:bg-emerald-500/10 hover:border-emerald-500/30 transition-all cursor-default group"
                   >
-                    <badge.icon className="w-5 h-5 text-emerald-500 group-hover:scale-110 transition-transform" />
+                    <badge.icon className="w-4 h-4 lg:w-5 lg:h-5 text-emerald-500 group-hover:scale-110 transition-transform" />
                     <span className="text-[10px] lg:text-sm font-black uppercase tracking-widest">{badge.text}</span>
                   </motion.div>
                 ))}
@@ -562,9 +562,9 @@ export function Home() {
                   y: useTransform(specialistScrollY, [0.75, 0.85], [15, 0])
                 }}
               >
-                <a href="https://wa.me/5521999999999" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 lg:gap-5 bg-white text-zinc-950 hover:bg-emerald-500 hover:text-zinc-950 px-6 py-4 lg:px-12 lg:py-6 rounded-none font-black uppercase tracking-[0.2em] transition-all duration-500 shadow-2xl group text-[10px] lg:text-base">
-                  <MessageCircle className="w-7 h-7" /> Consultar via WhatsApp (21)
-                  <ChevronRight className="w-6 h-6 group-hover:translate-x-3 transition-transform" />
+                <a href="https://wa.me/5521999999999" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 lg:gap-5 bg-white text-zinc-950 hover:bg-emerald-500 hover:text-zinc-950 px-5 py-3 lg:px-12 lg:py-6 rounded-none font-black uppercase tracking-[0.15em] lg:tracking-[0.2em] transition-all duration-500 shadow-2xl group text-[10px] lg:text-base">
+                  <MessageCircle className="w-5 h-5 lg:w-7 lg:h-7" /> Consultar via WhatsApp (21)
+                  <ChevronRight className="w-4 h-4 lg:w-6 lg:h-6 group-hover:translate-x-3 transition-transform" />
                 </a>
               </motion.div>
             </div>
