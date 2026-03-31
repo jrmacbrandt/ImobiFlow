@@ -93,9 +93,18 @@ export function Home() {
   const [selectedNeighborhood, setSelectedNeighborhood] = useState('');
   const [searchCode, setSearchCode] = useState('');
 
-  const heroRef = useRef(null);
+  const specialistRef = useRef(null);
   const carouselRef = useRef<HTMLDivElement>(null);
   const testimonialsRef = useRef<HTMLDivElement>(null);
+
+  // Dedicated scroll for specialist section
+  const { scrollYProgress: specialistScrollY } = useScroll({
+    target: specialistRef,
+    offset: ["start end", "end start"]
+  });
+
+  const specialistParallax = useTransform(specialistScrollY, [0, 1], [-60, 60]);
+  const specialistScale = useTransform(specialistScrollY, [0, 0.5, 1], [0.95, 1, 0.95]);
 
   useEffect(() => {
     async function fetchData() {
@@ -444,53 +453,107 @@ export function Home() {
       )}
 
       {/* --- NEW SECTION: [MÓDULO: AUTORIDADE_EEAT] --- */}
-      <section className="py-24 px-4 bg-zinc-900 text-white rounded-[4rem] mx-4 mb-24 overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-emerald-500/5 blur-[150px] -z-10" />
+      <section ref={specialistRef} className="py-24 px-4 bg-zinc-900 text-white rounded-none mx-0 mb-24 overflow-hidden relative border-y border-white/5">
+        <motion.div 
+          style={{ scale: specialistScale }}
+          className="absolute top-0 right-0 w-1/3 h-full bg-emerald-500/10 blur-[150px] -z-10" 
+        />
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
           <div className="lg:w-1/3 relative">
-            <div className="aspect-square rounded-3xl overflow-hidden border-4 border-white/5 relative bg-zinc-800">
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="aspect-[4/5] rounded-none overflow-hidden border border-white/10 relative bg-zinc-800 shadow-2xl"
+            >
                <motion.img 
-                 style={{ y: parallaxY }}
+                 style={{ y: specialistParallax }}
                  src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800" 
                  alt="Especialista" 
-                 className="w-full h-[120%] -mt-[10%] object-cover grayscale brightness-90 hover:grayscale-0 transition-all duration-700" 
+                 className="w-full h-[130%] -mt-[15%] object-cover grayscale brightness-90 hover:grayscale-0 transition-all duration-1000" 
                  loading="lazy" 
                />
-               <div className="absolute bottom-4 left-4 right-4 bg-emerald-600/90 backdrop-blur-md p-3 rounded-2xl flex items-center justify-center gap-2">
-                 <ShieldCheck className="w-5 h-5" />
-                 <span className="text-[10px] font-black uppercase tracking-[0.2em]">Registrado CRECI RJ-000000</span>
-               </div>
-            </div>
+               <motion.div 
+                 initial={{ y: 20, opacity: 0 }}
+                 whileInView={{ y: 0, opacity: 1 }}
+                 transition={{ delay: 0.5, duration: 0.5 }}
+                 className="absolute bottom-6 left-6 right-6 bg-emerald-600/95 backdrop-blur-xl p-4 rounded-none flex items-center justify-center gap-3 shadow-lg border border-white/10"
+               >
+                 <ShieldCheck className="w-5 h-5 text-zinc-950" />
+                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-950">Registrado CRECI RJ-000000</span>
+               </motion.div>
+            </motion.div>
           </div>
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.6 }}
-            className="lg:w-2/3 space-y-8"
-          >
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-500 text-xs font-black uppercase tracking-widest">
+          <div className="lg:w-2/3 space-y-10">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-3 px-5 py-2 bg-white/5 border border-white/10 rounded-none text-emerald-400 text-xs font-black uppercase tracking-[0.2em]"
+            >
               <Award className="w-4 h-4" /> Especialista em Imóveis de Luxo
-            </div>
-            <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-[0.9]">Consultoria Imobiliária com <br /><span className="text-emerald-500 italic font-serif">Visão Estratégica.</span></h2>
-            <p className="text-zinc-400 text-xl font-light leading-relaxed max-w-2xl">
+            </motion.div>
+            
+            <h2 className="text-4xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase">
+              { "Consultoria Imobiliária com Visão Estratégica.".split(" ").map((word, i) => (
+                <motion.span
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className={cn(
+                    "inline-block mr-3",
+                    word.toLowerCase().includes("estrat") && "text-emerald-500 italic font-serif"
+                  )}
+                >
+                  {word}
+                </motion.span>
+              ))}
+            </h2>
+
+            <motion.p 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="text-zinc-400 text-xl font-light leading-relaxed max-w-2xl uppercase tracking-wider"
+            >
               Com mais de 15 anos de atuação exclusiva no mercado fluminense, nossa consultoria vai além da busca: entregamos inteligência imobiliária, segurança jurídica e discrição absoluta para investidores e famílias.
-            </p>
+            </motion.p>
+
             <div className="flex flex-wrap gap-6 pt-4">
-              <div className="flex items-center gap-3 bg-white/5 px-6 py-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
-                <CheckCircle2 className="w-5 h-5 text-emerald-500" />
-                <span className="text-sm font-bold tracking-tight">Análise de Risco</span>
-              </div>
-              <div className="flex items-center gap-3 bg-white/5 px-6 py-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
-                <CheckCircle2 className="w-5 h-5 text-emerald-500" />
-                <span className="text-sm font-bold tracking-tight">Avaliação Patrimonial</span>
-              </div>
+              {[
+                { text: "Análise de Risco", icon: CheckCircle2 },
+                { text: "Avaliação Patrimonial", icon: CheckCircle2 }
+              ].map((badge, i) => (
+                <motion.div 
+                  key={badge.text}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.6 + (i * 0.2) }}
+                  className="flex items-center gap-4 bg-white/5 px-8 py-5 rounded-none border border-white/10 hover:bg-emerald-500/10 hover:border-emerald-500/30 transition-all cursor-default group"
+                >
+                  <badge.icon className="w-5 h-5 text-emerald-500 group-hover:scale-110 transition-transform" />
+                  <span className="text-sm font-black uppercase tracking-widest">{badge.text}</span>
+                </motion.div>
+              ))}
             </div>
-            <a href="https://wa.me/5521999999999" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-emerald-600 hover:bg-emerald-500 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest transition-all duration-400 shadow-[0_10px_30px_-10px_rgba(16,185,129,0.5)] hover:shadow-[0_20px_40px_-10px_rgba(16,185,129,0.7)] group">
-              <MessageCircle className="w-6 h-6" /> Consultar via WhatsApp (21)
-              <ChevronRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-            </a>
-          </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 1, duration: 0.5 }}
+            >
+              <a href="https://wa.me/5521999999999" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-5 bg-white text-zinc-950 hover:bg-emerald-500 hover:text-zinc-950 px-12 py-6 rounded-none font-black uppercase tracking-[0.2em] transition-all duration-500 shadow-2xl group">
+                <MessageCircle className="w-7 h-7" /> Consultar via WhatsApp (21)
+                <ChevronRight className="w-6 h-6 group-hover:translate-x-3 transition-transform" />
+              </a>
+            </motion.div>
+          </div>
         </div>
       </section>
 
