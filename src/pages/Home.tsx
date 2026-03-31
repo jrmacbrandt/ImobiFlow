@@ -460,7 +460,7 @@ export function Home() {
              botão de WhatsApp atingir 100% de visibilidade (progress 0.98).
       */}
       <div ref={specialistRef} className="relative h-[450vh] bg-zinc-950">
-        <section className="sticky top-16 h-[calc(100vh-64px)] w-full flex items-center px-4 overflow-hidden border-y border-white/5 shadow-2xl">
+        <section className="sticky top-16 h-[calc(100vh-64px)] w-full flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-16 px-6 lg:px-4 overflow-y-auto lg:overflow-hidden border-y border-white/5 shadow-2xl py-8 lg:py-0">
           <motion.div 
             style={{ 
               scale: specialistScale, 
@@ -469,7 +469,7 @@ export function Home() {
             className="absolute inset-0 bg-emerald-500/5 blur-[150px] -z-10" 
           />
           <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 w-full">
-            <div className="lg:w-1/3 relative">
+            <div className="w-full max-w-[240px] lg:max-w-none lg:w-1/3 relative shrink-0">
               <motion.div 
                 style={{ 
                   opacity: 1, 
@@ -488,14 +488,14 @@ export function Home() {
                    style={{ 
                      opacity: 1 
                    }}
-                   className="absolute bottom-6 left-6 right-6 bg-emerald-600/95 backdrop-blur-xl p-4 rounded-none flex items-center justify-center gap-3 shadow-lg border border-white/10"
+                   className="absolute bottom-4 lg:bottom-6 left-4 lg:left-6 right-4 lg:right-6 bg-emerald-600/95 backdrop-blur-xl p-3 lg:p-4 rounded-none flex items-center justify-center gap-2 lg:gap-3 shadow-lg border border-white/10"
                  >
                    <ShieldCheck className="w-5 h-5 text-zinc-950" />
-                   <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-950">Registrado CRECI RJ-000000</span>
+                   <span className="text-[8px] lg:text-[10px] font-black uppercase tracking-[0.2em] text-zinc-950">Registrado CRECI RJ-000000</span>
                  </motion.div>
               </motion.div>
             </div>
-            <div className="lg:w-2/3 space-y-10">
+            <div className="lg:w-2/3 space-y-4 lg:space-y-10 text-center lg:text-left">
               <motion.div 
                 style={{ 
                   opacity: useTransform(specialistScrollY, [0, 0.1], [0, 1]),
@@ -506,7 +506,7 @@ export function Home() {
                 <Award className="w-4 h-4" /> Especialista em Imóveis de Luxo
               </motion.div>
               
-              <h2 className="text-4xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase">
+              <h2 className="text-2xl md:text-7xl font-black tracking-tighter leading-[1] lg:leading-[0.85] uppercase">
                 { "Consultoria Imobiliária com Visão Estratégica.".split(" ").map((word, i, arr) => {
                   const start = 0.1 + (i / arr.length) * 0.55;
                   const end = start + 0.1;
@@ -532,12 +532,12 @@ export function Home() {
                 style={{ 
                   opacity: useTransform(specialistScrollY, [0.7, 0.82], [0, 1])
                 }}
-                className="text-zinc-400 text-xl font-light leading-relaxed max-w-2xl uppercase tracking-wider"
+                className="text-zinc-400 text-sm md:text-xl font-light leading-relaxed max-w-2xl uppercase tracking-wider mx-auto lg:mx-0"
               >
                 Com mais de 15 anos de atuação exclusiva no mercado fluminense, nossa consultoria vai além da busca: entregamos inteligência imobiliária, segurança jurídica e discrição absoluta para investidores e famílias.
               </motion.p>
 
-              <div className="flex flex-wrap gap-6 pt-4">
+              <div className="flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-3 lg:gap-6 pt-2 lg:pt-4">
                 {[
                   { text: "Análise de Risco", icon: CheckCircle2 },
                   { text: "Avaliação Patrimonial", icon: CheckCircle2 }
@@ -548,10 +548,10 @@ export function Home() {
                       opacity: useTransform(specialistScrollY, [0.82 + (i * 0.04), 0.88 + (i * 0.04)], [0, 1]),
                       scale: useTransform(specialistScrollY, [0.82 + (i * 0.04), 0.88 + (i * 0.04)], [0.95, 1])
                     }}
-                    className="flex items-center gap-4 bg-white/5 px-8 py-5 rounded-none border border-white/10 hover:bg-emerald-500/10 hover:border-emerald-500/30 transition-all cursor-default group"
+                    className="flex items-center gap-4 bg-white/5 px-4 py-3 lg:px-8 lg:py-5 rounded-none border border-white/10 hover:bg-emerald-500/10 hover:border-emerald-500/30 transition-all cursor-default group"
                   >
                     <badge.icon className="w-5 h-5 text-emerald-500 group-hover:scale-110 transition-transform" />
-                    <span className="text-sm font-black uppercase tracking-widest">{badge.text}</span>
+                    <span className="text-[10px] lg:text-sm font-black uppercase tracking-widest">{badge.text}</span>
                   </motion.div>
                 ))}
               </div>
@@ -562,7 +562,7 @@ export function Home() {
                   y: useTransform(specialistScrollY, [0.9, 0.98], [15, 0])
                 }}
               >
-                <a href="https://wa.me/5521999999999" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-5 bg-white text-zinc-950 hover:bg-emerald-500 hover:text-zinc-950 px-12 py-6 rounded-none font-black uppercase tracking-[0.2em] transition-all duration-500 shadow-2xl group">
+                <a href="https://wa.me/5521999999999" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 lg:gap-5 bg-white text-zinc-950 hover:bg-emerald-500 hover:text-zinc-950 px-6 py-4 lg:px-12 lg:py-6 rounded-none font-black uppercase tracking-[0.2em] transition-all duration-500 shadow-2xl group text-xs lg:text-base">
                   <MessageCircle className="w-7 h-7" /> Consultar via WhatsApp (21)
                   <ChevronRight className="w-6 h-6 group-hover:translate-x-3 transition-transform" />
                 </a>
