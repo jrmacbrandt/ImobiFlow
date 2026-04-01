@@ -493,15 +493,7 @@ export function Home() {
               </motion.div>
             </div>
             <div className="lg:w-2/3 space-y-0.5 lg:space-y-8 text-center pt-2">
-              <motion.div 
-                style={{ 
-                  opacity: useTransform(specialistScrollY, [0, 0.1], [0, 1]),
-                  y: useTransform(specialistScrollY, [0, 0.1], [10, 0])
-                }}
-                className="inline-flex items-center gap-2 lg:gap-3 px-3 py-1.5 lg:px-5 lg:py-2 bg-white/5 border border-white/10 rounded-none text-emerald-400 text-[10px] lg:text-xs font-black uppercase tracking-[0.2em]"
-              >
-                <Award className="w-4 h-4" /> Especialista em Imóveis de Luxo
-              </motion.div>
+
               
               <h2 className="text-2xl md:text-4xl lg:text-7xl font-black tracking-tighter leading-[1] lg:leading-[0.85] uppercase text-white">
                 { "Consultoria Imobiliária com Visão Estratégica.".split(" ").map((word, i, arr) => {
