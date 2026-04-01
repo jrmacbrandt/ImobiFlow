@@ -138,13 +138,16 @@ export const ScrollVideoHero: React.FC<ScrollVideoHeroProps> = ({ frameCount }) 
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         
         {/* Transformation Milestone Text - REPOSITIONED & RESIZED */}
-        <section className="h-[280vh] flex flex-col items-center justify-between sticky top-0 pointer-events-none py-20 md:py-32">
+        <section className="sticky top-0 h-screen w-full flex flex-col items-center justify-between py-24 lg:py-40 pointer-events-none z-20">
             {/* Top Text (New) */}
             <motion.div 
-                style={{ opacity: transformTitleOpacity }}
+                style={{ 
+                  opacity: transformTitleOpacity,
+                  y: useTransform(smoothProgress, [0.8, 0.9], [-20, 0])
+                }}
                 className="max-w-6xl mx-auto text-center px-6"
             >
-                <h1 className="text-2xl md:text-4xl lg:text-6xl font-black text-white tracking-tighter uppercase drop-shadow-2xl">
+                <h1 className="text-3xl md:text-5xl lg:text-7xl font-black text-white tracking-tighter uppercase drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]">
                    Casas e Apartamentos no <br />
                    <span className="text-emerald-500 italic">Rio, Niterói e Baixada.</span>
                 </h1>
@@ -155,9 +158,9 @@ export const ScrollVideoHero: React.FC<ScrollVideoHeroProps> = ({ frameCount }) 
                 style={{ opacity: transformTitleOpacity, y: transformTitleY }}
                 className="max-w-4xl mx-auto text-center px-6"
             >
-                <h2 className="text-xl md:text-3xl font-black text-white tracking-widest leading-none uppercase">
+                <h2 className="text-xl md:text-3xl font-black text-white tracking-widest leading-none uppercase drop-shadow-xl">
                    Não vendemos CASAS. <br />
-                   <span className="bg-emerald-500 text-zinc-950 px-3 py-1 inline-block mt-3">Realizamos SONHOS...</span>
+                   <span className="bg-emerald-500 text-zinc-950 px-4 py-2 inline-block mt-4 shadow-xl">Realizamos SONHOS...</span>
                 </h2>
             </motion.div>
         </section>
