@@ -460,7 +460,7 @@ export function Home() {
              botão de WhatsApp atingir 100% de visibilidade (progress 0.98).
       */}
       <div ref={specialistRef} className="relative h-[200vh] lg:h-[450vh] bg-zinc-950">
-        <section className="sticky top-16 h-[calc(100vh-64px)] w-full flex items-center justify-center px-6 lg:px-4 py-8 lg:py-16 overflow-hidden border-y border-white/5 shadow-2xl">
+        <section className="sticky top-16 h-[calc(100vh-64px)] w-full flex items-center justify-center px-6 lg:px-4 py-10 lg:py-16 overflow-hidden border-y border-white/5 shadow-2xl">
           <motion.div 
             style={{ 
               scale: specialistScale, 
@@ -468,14 +468,14 @@ export function Home() {
             }}
             className="absolute inset-0 bg-emerald-500/5 blur-[150px] -z-10" 
           />
-          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-3 lg:gap-16 w-full">
-            <div className="w-full max-w-[120px] md:max-w-[280px] lg:max-w-none lg:w-1/3 relative shrink-0 mx-auto lg:mx-0">
+          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-2 lg:gap-16 w-full">
+            <div className="w-full max-w-[300px] md:max-w-[280px] lg:max-w-none lg:w-1/3 relative shrink-0 mx-auto lg:mx-0">
               <motion.div 
                 style={{ 
                   opacity: 1, 
                   x: 0
                 }}
-                className="aspect-[4/5] rounded-none overflow-hidden border border-white/10 relative bg-zinc-800 shadow-2xl"
+                className="aspect-video lg:aspect-[4/5] rounded-none overflow-hidden border border-white/10 relative bg-zinc-800 shadow-2xl"
               >
                  <img 
                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800" 
@@ -494,7 +494,7 @@ export function Home() {
                  </motion.div>
               </motion.div>
             </div>
-            <div className="lg:w-2/3 space-y-2 lg:space-y-8 text-center">
+            <div className="lg:w-2/3 space-y-1.5 lg:space-y-8 text-center">
               <motion.div 
                 style={{ 
                   opacity: useTransform(specialistScrollY, [0, 0.1], [0, 1]),
@@ -505,7 +505,7 @@ export function Home() {
                 <Award className="w-4 h-4" /> Especialista em Imóveis de Luxo
               </motion.div>
               
-              <h2 className="text-2xl md:text-4xl lg:text-7xl font-black tracking-tighter leading-[1] lg:leading-[0.85] uppercase">
+              <h2 className="text-2xl md:text-4xl lg:text-7xl font-black tracking-tighter leading-[1] lg:leading-[0.85] uppercase text-white">
                 { "Consultoria Imobiliária com Visão Estratégica.".split(" ").map((word, i, arr) => {
                   const start = 0.05 + (i / arr.length) * 0.35;
                   const end = start + 0.1;
