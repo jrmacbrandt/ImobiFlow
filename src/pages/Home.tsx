@@ -526,8 +526,6 @@ export function Home() {
                 Com mais de 15 anos de atuação exclusiva no mercado fluminense, nossa consultoria vai além da busca: entregamos inteligência imobiliária, segurança jurídica e discrição absoluta para investidores e famílias.
               </motion.p>
 
-
-
               <motion.div
                 style={{ 
                   opacity: useTransform(specialistScrollY, [0.75, 0.85], [0, 1]),
