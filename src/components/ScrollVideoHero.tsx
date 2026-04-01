@@ -138,7 +138,19 @@ export const ScrollVideoHero: React.FC<ScrollVideoHeroProps> = ({ frameCount }) 
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         
         {/* Transformation Milestone Text - REPOSITIONED & RESIZED */}
-        <section className="h-[280vh] flex items-end justify-center sticky top-0 pointer-events-none pb-24 md:pb-32">
+        <section className="h-[280vh] flex flex-col items-center justify-between sticky top-0 pointer-events-none py-20 md:py-32">
+            {/* Top Text (New) */}
+            <motion.div 
+                style={{ opacity: transformTitleOpacity }}
+                className="max-w-6xl mx-auto text-center px-6"
+            >
+                <h1 className="text-2xl md:text-4xl lg:text-6xl font-black text-white tracking-tighter uppercase drop-shadow-2xl">
+                   Casas e Apartamentos no <br />
+                   <span className="text-emerald-500 italic">Rio, Niterói e Baixada.</span>
+                </h1>
+            </motion.div>
+
+            {/* Bottom Text (Existing) */}
             <motion.div 
                 style={{ opacity: transformTitleOpacity, y: transformTitleY }}
                 className="max-w-4xl mx-auto text-center px-6"
