@@ -460,7 +460,7 @@ export function Home() {
              botão de WhatsApp atingir 100% de visibilidade (progress 0.98).
       */}
       <div ref={specialistRef} className="relative h-[200vh] lg:h-[450vh] bg-zinc-950">
-        <section className="sticky top-16 h-[calc(100vh-64px)] w-full flex items-center justify-center px-6 lg:px-4 py-10 lg:py-16 overflow-hidden border-y border-white/5 shadow-2xl">
+        <section className="sticky top-16 h-[calc(100vh-64px)] w-full flex items-center justify-center px-6 lg:px-4 py-20 lg:py-24 overflow-hidden border-y border-white/5 shadow-2xl">
           <motion.div 
             style={{ 
               scale: specialistScale, 
@@ -469,13 +469,13 @@ export function Home() {
             className="absolute inset-0 bg-emerald-500/5 blur-[150px] -z-10" 
           />
           <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-2 lg:gap-16 w-full">
-            <div className="w-full max-w-[300px] md:max-w-[280px] lg:max-w-none lg:w-1/3 relative shrink-0 mx-auto lg:mx-0">
-              <motion.div 
+            <div className="w-full max-w-[240px] md:max-w-[280px] lg:max-w-none lg:w-1/3 flex flex-col gap-2 shrink-0 mx-auto lg:mx-0">
+               <motion.div 
                 style={{ 
                   opacity: 1, 
                   x: 0
                 }}
-                className="aspect-video lg:aspect-[4/5] rounded-none overflow-hidden border border-white/10 relative bg-zinc-800 shadow-2xl"
+                className="aspect-square lg:aspect-[4/5] rounded-none overflow-hidden border border-white/10 relative bg-zinc-800 shadow-2xl"
               >
                  <img 
                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800" 
@@ -483,18 +483,16 @@ export function Home() {
                    className="w-full h-full lg:h-[130%] lg:-mt-[15%] object-cover object-top" 
                    loading="lazy" 
                  />
-                 <motion.div 
-                   style={{ 
-                     opacity: 1 
-                   }}
-                   className="absolute bottom-4 lg:bottom-6 left-4 lg:left-6 right-4 lg:right-6 bg-emerald-600/95 backdrop-blur-xl p-3 lg:p-4 rounded-none flex items-center justify-center gap-2 lg:gap-3 shadow-lg border border-white/10"
-                 >
-                   <ShieldCheck className="w-5 h-5 text-zinc-950" />
-                   <span className="text-[8px] lg:text-[10px] font-black uppercase tracking-[0.2em] text-zinc-950">Registrado CRECI RJ-000000</span>
-                 </motion.div>
+              </motion.div>
+              <motion.div 
+                style={{ opacity: 1 }}
+                className="bg-emerald-600 p-2 lg:p-4 rounded-none flex items-center justify-center gap-2 lg:gap-3 shadow-lg border border-white/10"
+              >
+                <ShieldCheck className="w-4 h-4 lg:w-5 lg:h-5 text-zinc-950" />
+                <span className="text-[8px] lg:text-[10px] font-black uppercase tracking-[0.2em] text-zinc-950 text-center">Registrado CRECI RJ-000000</span>
               </motion.div>
             </div>
-            <div className="lg:w-2/3 space-y-1.5 lg:space-y-8 text-center">
+            <div className="lg:w-2/3 space-y-0.5 lg:space-y-8 text-center pt-2">
               <motion.div 
                 style={{ 
                   opacity: useTransform(specialistScrollY, [0, 0.1], [0, 1]),
@@ -536,7 +534,7 @@ export function Home() {
                 Com mais de 15 anos de atuação exclusiva no mercado fluminense, nossa consultoria vai além da busca: entregamos inteligência imobiliária, segurança jurídica e discrição absoluta para investidores e famílias.
               </motion.p>
 
-              <div className="flex flex-row flex-wrap justify-center gap-2 lg:gap-6 pt-1 lg:pt-4">
+              <div className="flex flex-row flex-wrap justify-center gap-2 lg:gap-6 pt-0.5 lg:pt-4">
                 {[
                   { text: "Análise de Risco", icon: CheckCircle2 },
                   { text: "Avaliação Patrimonial", icon: CheckCircle2 }
