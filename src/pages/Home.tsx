@@ -460,7 +460,7 @@ export function Home() {
              botão de WhatsApp atingir 100% de visibilidade (progress 0.98).
       */}
       <div ref={specialistRef} className="relative h-[200vh] lg:h-[450vh] bg-zinc-950">
-        <section className="sticky top-16 h-[calc(100vh-64px)] w-full flex items-center justify-center px-6 lg:px-4 py-20 lg:py-24 overflow-hidden border-y border-white/5 shadow-2xl">
+        <section className="sticky top-16 h-[calc(100vh-64px)] w-full flex flex-col items-center justify-between px-6 lg:px-4 pt-16 pb-8 lg:py-24 overflow-hidden border-y border-white/5 shadow-2xl">
           <motion.div 
             style={{ 
               scale: specialistScale, 
@@ -469,13 +469,13 @@ export function Home() {
             className="absolute inset-0 bg-emerald-500/5 blur-[150px] -z-10" 
           />
           <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-2 lg:gap-16 w-full">
-            <div className="w-full max-w-[240px] md:max-w-[280px] lg:max-w-none lg:w-1/3 flex flex-col gap-2 shrink-0 mx-auto lg:mx-0">
+            <div className="w-full max-w-[180px] md:max-w-[280px] lg:max-w-none lg:w-1/3 flex flex-col gap-1.5 shrink-0 mx-auto lg:mx-0">
                <motion.div 
                 style={{ 
                   opacity: 1, 
                   x: 0
                 }}
-                className="aspect-square lg:aspect-[4/5] rounded-none overflow-hidden border border-white/10 relative bg-zinc-800 shadow-2xl"
+                className="aspect-square max-h-[160px] lg:max-h-none lg:aspect-[4/5] rounded-none overflow-hidden border border-white/10 relative bg-zinc-800 shadow-2xl"
               >
                  <img 
                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800" 
@@ -486,10 +486,10 @@ export function Home() {
               </motion.div>
               <motion.div 
                 style={{ opacity: 1 }}
-                className="bg-emerald-600 p-2 lg:p-4 rounded-none flex items-center justify-center gap-2 lg:gap-3 shadow-lg border border-white/10"
+                className="bg-emerald-600 p-1.5 lg:p-4 rounded-none flex items-center justify-center gap-1.5 lg:gap-3 shadow-lg border border-white/10"
               >
-                <ShieldCheck className="w-4 h-4 lg:w-5 lg:h-5 text-zinc-950" />
-                <span className="text-[8px] lg:text-[10px] font-black uppercase tracking-[0.2em] text-zinc-950 text-center">Registrado CRECI RJ-000000</span>
+                <ShieldCheck className="w-3.5 h-3.5 lg:w-5 lg:h-5 text-zinc-950" />
+                <span className="text-[7px] lg:text-[10px] font-black uppercase tracking-[0.2em] text-zinc-950 text-center">Registrado CRECI RJ-000000</span>
               </motion.div>
             </div>
             <div className="lg:w-2/3 space-y-0.5 lg:space-y-8 text-center pt-2">
@@ -503,7 +503,7 @@ export function Home() {
                 <Award className="w-4 h-4" /> Especialista em Imóveis de Luxo
               </motion.div>
               
-              <h2 className="text-2xl md:text-4xl lg:text-7xl font-black tracking-tighter leading-[1] lg:leading-[0.85] uppercase text-white">
+              <h2 className="text-xl md:text-4xl lg:text-7xl font-black tracking-tighter leading-[1] lg:leading-[0.85] uppercase text-white">
                 { "Consultoria Imobiliária com Visão Estratégica.".split(" ").map((word, i, arr) => {
                   const start = 0.05 + (i / arr.length) * 0.35;
                   const end = start + 0.1;
@@ -529,9 +529,9 @@ export function Home() {
                 style={{ 
                   opacity: useTransform(specialistScrollY, [0.45, 0.55], [0, 1])
                 }}
-                className="text-zinc-400 text-xs md:text-base lg:text-xl font-light leading-relaxed max-w-2xl uppercase tracking-wider mx-auto"
+                className="text-zinc-400 text-[10px] md:text-base lg:text-xl font-light leading-relaxed max-w-2xl uppercase tracking-wider mx-auto"
               >
-                Com mais de 15 anos de atuação exclusiva no mercado fluminense, nossa consultoria vai além da busca: entregamos inteligência imobiliária, segurança jurídica e discrição absoluta para investidores e famílias.
+                Com mais de 15 anos de atuação exclusiva no mercado fluminense, nossa consultoria vai além da busca: entregamos inteligência imobiliária, segurança jurídica e discrição absoluta.
               </motion.p>
 
               <div className="flex flex-row flex-wrap justify-center gap-2 lg:gap-6 pt-0.5 lg:pt-4">
@@ -559,9 +559,9 @@ export function Home() {
                   y: useTransform(specialistScrollY, [0.75, 0.85], [15, 0])
                 }}
               >
-                <a href="https://wa.me/5521999999999" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 lg:gap-5 bg-white text-zinc-950 hover:bg-emerald-500 hover:text-zinc-950 px-5 py-3 lg:px-12 lg:py-6 rounded-none font-black uppercase tracking-[0.15em] lg:tracking-[0.2em] transition-all duration-500 shadow-2xl group text-[10px] lg:text-base">
-                  <MessageCircle className="w-5 h-5 lg:w-7 lg:h-7" /> Consultar via WhatsApp (21)
-                  <ChevronRight className="w-4 h-4 lg:w-6 lg:h-6 group-hover:translate-x-3 transition-transform" />
+                <a href="https://wa.me/5521999999999" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 lg:gap-5 bg-white text-zinc-950 hover:bg-emerald-500 hover:text-zinc-950 px-4 py-2.5 lg:px-12 lg:py-6 rounded-none font-black uppercase tracking-[0.15em] lg:tracking-[0.2em] transition-all duration-500 shadow-2xl group text-[10px] lg:text-base">
+                  <MessageCircle className="w-4 h-4 lg:w-7 lg:h-7" /> Consultar via WhatsApp (21)
+                  <ChevronRight className="w-3.5 h-3.5 lg:w-6 lg:h-6 group-hover:translate-x-3 transition-transform" />
                 </a>
               </motion.div>
             </div>
