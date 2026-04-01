@@ -526,24 +526,7 @@ export function Home() {
                 Com mais de 15 anos de atuação exclusiva no mercado fluminense, nossa consultoria vai além da busca: entregamos inteligência imobiliária, segurança jurídica e discrição absoluta para investidores e famílias.
               </motion.p>
 
-              <div className="flex flex-row flex-wrap justify-center gap-2 lg:gap-6 pt-0.5 lg:pt-4">
-                {[
-                  { text: "Análise de Risco", icon: CheckCircle2 },
-                  { text: "Avaliação Patrimonial", icon: CheckCircle2 }
-                ].map((badge, i) => (
-                  <motion.div 
-                    key={badge.text}
-                    style={{ 
-                      opacity: useTransform(specialistScrollY, [0.55 + (i * 0.04), 0.65 + (i * 0.04)], [0, 1]),
-                      scale: useTransform(specialistScrollY, [0.55 + (i * 0.04), 0.65 + (i * 0.04)], [0.95, 1])
-                    }}
-                    className="flex items-center gap-2 lg:gap-4 bg-white/5 px-3 py-2 lg:px-8 lg:py-5 rounded-none border border-white/10 hover:bg-emerald-500/10 hover:border-emerald-500/30 transition-all cursor-default group"
-                  >
-                    <badge.icon className="w-4 h-4 lg:w-5 lg:h-5 text-emerald-500 group-hover:scale-110 transition-transform" />
-                    <span className="text-[10px] lg:text-sm font-black uppercase tracking-widest">{badge.text}</span>
-                  </motion.div>
-                ))}
-              </div>
+
 
               <motion.div
                 style={{ 
