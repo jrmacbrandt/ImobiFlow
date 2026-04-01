@@ -460,7 +460,7 @@ export function Home() {
              botão de WhatsApp atingir 100% de visibilidade (progress 0.98).
       */}
       <div ref={specialistRef} className="relative h-[200vh] lg:h-[450vh] bg-zinc-950">
-        <section className="sticky top-16 h-[calc(100vh-64px)] w-full flex items-center justify-center px-6 lg:px-4 overflow-hidden border-y border-white/5 shadow-2xl">
+        <section className="sticky top-16 h-[calc(100vh-64px)] w-full flex items-center justify-center px-6 lg:px-4 py-8 lg:py-16 overflow-hidden border-y border-white/5 shadow-2xl">
           <motion.div 
             style={{ 
               scale: specialistScale, 
@@ -468,8 +468,8 @@ export function Home() {
             }}
             className="absolute inset-0 bg-emerald-500/5 blur-[150px] -z-10" 
           />
-          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-4 lg:gap-16 w-full">
-            <div className="w-full max-w-[140px] md:max-w-[280px] lg:max-w-none lg:w-1/3 relative shrink-0 mx-auto lg:mx-0">
+          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-3 lg:gap-16 w-full">
+            <div className="w-full max-w-[120px] md:max-w-[280px] lg:max-w-none lg:w-1/3 relative shrink-0 mx-auto lg:mx-0">
               <motion.div 
                 style={{ 
                   opacity: 1, 
