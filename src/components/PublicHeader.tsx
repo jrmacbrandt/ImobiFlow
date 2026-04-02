@@ -27,8 +27,8 @@ export function PublicHeader() {
     <header className={cn(
       "fixed top-0 w-full z-50 transition-all duration-500",
       scrolled 
-        ? "bg-white/85 backdrop-blur-xl border-b border-zinc-200/50 shadow-sm py-0" 
-        : "bg-white/50 backdrop-blur-sm border-b border-transparent py-2"
+        ? "bg-white border-b border-zinc-200 shadow-sm py-0" 
+        : "bg-white border-b border-zinc-100 py-2"
     )}>
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
         <Link to="/" className="text-2xl font-bold tracking-tighter text-emerald-600">
