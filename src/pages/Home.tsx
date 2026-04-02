@@ -459,22 +459,21 @@ export function Home() {
           3. REGRA DE OURO (SINCRONIA): A seção destrava quase imediatamente após o 
              botão de WhatsApp atingir 100% de visibilidade (progress 0.98).
       */}
-      <div ref={specialistRef} className="relative h-[250vh] lg:h-[450vh] bg-zinc-950">
-        <section className="sticky top-16 h-auto min-h-[calc(100vh-64px)] w-full flex flex-col items-center justify-start px-6 lg:px-4 pt-20 pb-16 lg:py-24 overflow-visible border-y border-white/5 shadow-2xl">
+      <div className="bg-zinc-950">
+        <section className="w-full flex flex-col items-center justify-start px-6 lg:px-4 py-24 lg:py-32 overflow-visible border-y border-white/5 shadow-2xl relative">
           <motion.div 
-            style={{ 
-              scale: specialistScale, 
-              opacity: useTransform(specialistScrollY, [0, 0.1, 0.9, 1], [0.1, 1, 1, 0]) 
-            }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
             className="absolute inset-0 bg-emerald-500/5 blur-[150px] -z-10" 
           />
           <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-2 lg:gap-16 w-full">
             <div className="w-full max-w-[280px] lg:max-w-none lg:w-1/3 flex flex-col gap-2 shrink-0 mx-auto lg:mx-0">
                <motion.div 
-                style={{ 
-                  opacity: 1, 
-                  x: 0
-                }}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
                 className="aspect-[4/5] rounded-none overflow-hidden border border-white/10 relative bg-zinc-800 shadow-2xl"
               >
                  <img 
@@ -492,45 +491,28 @@ export function Home() {
                 <span className="text-[8px] lg:text-[10px] font-black uppercase tracking-[0.2em] text-zinc-950 text-center">Registrado CRECI RJ-000000</span>
               </motion.div>
             </div>
-            <div className="lg:w-2/3 space-y-0.5 lg:space-y-8 text-center pt-2">
+            <div className="lg:w-2/3 space-y-4 lg:space-y-8 text-center pt-2">
 
               
               <h2 className="text-2xl md:text-4xl lg:text-7xl font-black tracking-tighter leading-[1] lg:leading-[0.85] uppercase text-white">
-                { "Consultoria Imobiliária com Visão Estratégica.".split(" ").map((word, i, arr) => {
-                  const start = 0.05 + (i / arr.length) * 0.35;
-                  const end = start + 0.1;
-                  return (
-                    <motion.span
-                      key={i}
-                      style={{ 
-                        opacity: useTransform(specialistScrollY, [start, end], [0, 1]),
-                        y: useTransform(specialistScrollY, [start, end], [10, 0])
-                      }}
-                      className={cn(
-                        "inline-block mr-2 md:mr-3",
-                        word.toLowerCase().includes("estrat") && "text-emerald-500 italic font-serif"
-                      )}
-                    >
-                      {word}
-                    </motion.span>
-                  );
-                })}
+                Consultoria Imobiliária com <br className="hidden md:block" /> Visão <span className="text-emerald-500 italic font-serif">Estratégica.</span>
               </h2>
 
               <motion.p 
-                style={{ 
-                  opacity: useTransform(specialistScrollY, [0.45, 0.55], [0, 1])
-                }}
-                className="text-zinc-400 text-xs md:text-base lg:text-xl font-light leading-relaxed max-w-2xl uppercase tracking-wider mx-auto"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="text-zinc-400 text-xs md:text-base lg:text-xl font-light leading-relaxed max-w-2xl uppercase tracking-wider mx-auto py-6 md:py-0"
               >
                 Com mais de 15 anos de atuação exclusiva no mercado fluminense, nossa consultoria vai além da busca: entregamos inteligência imobiliária, segurança jurídica e discrição absoluta para investidores e famílias.
               </motion.p>
 
               <motion.div
-                style={{ 
-                  opacity: useTransform(specialistScrollY, [0.75, 0.85], [0, 1]),
-                  y: useTransform(specialistScrollY, [0.75, 0.85], [15, 0])
-                }}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.4 }}
               >
                 <a href="https://wa.me/5521999999999" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 lg:gap-5 bg-white text-zinc-950 hover:bg-emerald-500 hover:text-zinc-950 px-6 py-4 lg:px-12 lg:py-6 rounded-none font-black uppercase tracking-[0.15em] lg:tracking-[0.2em] transition-all duration-500 shadow-2xl group text-[10px] lg:text-base">
                   <MessageCircle className="w-5 h-5 lg:w-7 lg:h-7" /> Consultar via WhatsApp (21)
