@@ -25,7 +25,7 @@ export const ScrollVideoHero: React.FC<ScrollVideoHeroProps> = ({ frameCount }) 
   });
 
   // Map progress to frame index
-  const frameIndex = useTransform(smoothProgress, [0, 1], [0, frameCount - 1]);
+  const frameIndex = useTransform(smoothProgress, [0, 0.7], [0, frameCount - 1], { clamp: true });
   
   // Preload images
   const images = useMemo(() => {
@@ -120,11 +120,11 @@ export const ScrollVideoHero: React.FC<ScrollVideoHeroProps> = ({ frameCount }) 
   }, [images, frameIndex]);
 
   // Text Animations based on scroll ranges
-  const transformTitleOpacity = useTransform(smoothProgress, [0.8, 0.9, 1.0], [0, 1, 1]);
-  const transformTitleY = useTransform(smoothProgress, [0.8, 0.9], [20, 0]);
+  const transformTitleOpacity = useTransform(smoothProgress, [0.5, 0.7, 1.0], [0, 1, 1]);
+  const transformTitleY = useTransform(smoothProgress, [0.5, 0.7], [20, 0]);
 
   return (
-    <div ref={containerRef} className="relative h-[300vh] bg-zinc-950">
+    <div ref={containerRef} className="relative h-[500vh] bg-zinc-950">
       {/* Sticky Background Canvas */}
       <div className="sticky top-0 left-0 w-full h-screen overflow-hidden">
         <canvas 
@@ -143,7 +143,7 @@ export const ScrollVideoHero: React.FC<ScrollVideoHeroProps> = ({ frameCount }) 
             <motion.div 
                 style={{ 
                   opacity: transformTitleOpacity,
-                  y: useTransform(smoothProgress, [0.8, 0.9], [-20, 0])
+                  y: useTransform(smoothProgress, [0.5, 0.7], [-20, 0])
                 }}
                 className="max-w-6xl mx-auto text-center px-6"
             >
