@@ -242,9 +242,11 @@ Responda APENAS com um objeto JSON válido seguindo EXATAMENTE esta estrutura: {
 
       const userPrompt = `Gere o anúncio de elite para este imóvel:
 DADOS TÉCNICOS:
+- Transação: ${formData.purpose}
+- Preço: ${formData.price}
 - Tipo: ${formData.type}
 - Localização: ${formData.neighborhood}, ${formData.city}
-- Quartos: ${formData.bedrooms} | Vagas: ${formData.parking_spots} | Área: ${formData.area_sqm}m²
+- Quartos: ${formData.bedrooms} | Banheiros: ${formData.bathrooms} | Vagas: ${formData.parking_spots} | Área: ${formData.area_sqm}m²
 
 QUESTIONÁRIO ESTRATÉGICO:
 1. Destaque Emocional: ${iaAnswers.emotional_highlight}
@@ -258,7 +260,7 @@ QUESTIONÁRIO ESTRATÉGICO:
 9. Diferencial Interno: ${iaAnswers.internal_differential}
 10. Custos Fixos: ${iaAnswers.fixed_costs}
 
-Aplique Ancoragem, Aversão à Perda e Prova Social conforme as diretrizes.`;
+Dada a transação ser de ${formData.purpose}, adapte o título para "[Tipo] para ${formData.purpose} em [Bairro]..." e o texto conformadamente. Aplique Ancoragem, Aversão à Perda e Prova Social conforme as diretrizes.`;
 
       const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
@@ -469,18 +471,32 @@ Aplique Ancoragem, Aversão à Perda e Prova Social conforme as diretrizes.`;
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-zinc-700">Tipo</label>
-                <select 
-                  value={formData.type}
-                  onChange={e => setFormData({...formData, type: e.target.value})}
-                  className="w-full p-3 rounded-xl border border-zinc-200 focus:ring-2 focus:ring-emerald-500 outline-none bg-white"
-                >
-                  <option>Apartamento</option>
-                  <option>Casa</option>
-                  <option>Terreno</option>
-                  <option>Comercial</option>
-                </select>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-zinc-700">Tipo</label>
+                  <select 
+                    value={formData.type}
+                    onChange={e => setFormData({...formData, type: e.target.value})}
+                    className="w-full p-3 rounded-xl border border-zinc-200 focus:ring-2 focus:ring-emerald-500 outline-none bg-white"
+                  >
+                    <option>Apartamento</option>
+                    <option>Casa</option>
+                    <option>Terreno</option>
+                    <option>Comercial</option>
+                  </select>
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-zinc-700">Tipo de Transação</label>
+                  <select 
+                    value={formData.purpose}
+                    onChange={e => setFormData({...formData, purpose: e.target.value})}
+                    className="w-full p-3 rounded-xl border border-zinc-200 focus:ring-2 focus:ring-emerald-500 outline-none bg-white font-bold text-emerald-600"
+                  >
+                    <option value="Venda">Venda</option>
+                    <option value="Aluguel">Aluguel</option>
+                  </select>
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">

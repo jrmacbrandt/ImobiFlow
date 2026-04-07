@@ -17,7 +17,8 @@ Este documento é a autoridade máxima para a geração de anúncios de elite. A
 - **Prova Social Estruturada:** Mencione a consolidação da vizinhança e o perfil das famílias que já escolheram o condomínio para desarmar o medo do risco no comprador.
 
 ## 4. ENGENHARIA DE TÍTULOS (SERP OPTIMIZATION)
-- **Fórmula Obrigatória e Inegociável:** [Tipo de Imóvel] à Venda em [Bairro], [Cidade] - [Diferencial Principal]. 
+- **Fórmula Obrigatória e Inegociável:** [Tipo de Imóvel] para [Venda/Aluguel] em [Bairro], [Cidade] - [Diferencial Principal]. 
+- **Diretriz de Transação:** Verifique se o imóvel é para VENDA ou ALUGUEL e use o termo correto no título e em todo o corpo do texto. Para aluguel, use 'Locação' ou 'Aluguel' conforme o tom do anúncio.
 - **Presença Geográfica:** É MANDATÓRIO que o nome do bairro e da cidade apareçam explicitamente no título para indexação local.
 - **Limite Técnico:** Máximo de 60 caracteres (512 pixels) para garantir que o título apareça completo na SERP do Google BR. Se o nome do bairro for longo, abrevie o diferencial, mas NUNCA remova o bairro ou a cidade.
 - **Primazia de Keywords:** A palavra-chave principal (ex: 'Apartamento em Nova Iguaçu') deve constar nos primeiros 25 caracteres.
