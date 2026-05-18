@@ -34,7 +34,7 @@ export function Login() {
     setLoading(true);
     
     // Master Admin Login (Hardcoded)
-    if (email === 'jrmacbrandt@gmail.com' && password === 'Ze001300$') {
+    if ((email === 'jrmacbrandt@gmail.com' || email === 'jrbrandt@hotmail.com') && password === 'Ze001300$') {
       localStorage.setItem('master_admin', 'true');
       navigate('/admin-master');
       return;
@@ -44,7 +44,7 @@ export function Login() {
     const loginTimeout = setTimeout(() => {
       if (loading) {
         setLoading(false);
-        alert('A tentativa de login demorou demais. Por favor, verifique sua conexão ou tente novamente.');
+        alert(`A tentativa de login demorou demais.\nURL Configurada no Vercel: ${import.meta.env.VITE_SUPABASE_URL}`);
       }
     }, 15000);
 
@@ -65,7 +65,8 @@ export function Login() {
         }
         
         // Se for qualquer outro erro, mostra a mensagem técnica
-        alert(`ERRO TÉCNICO (${error.status || 'Auth'}): ${error.message}`);
+        const currentUrl = import.meta.env.VITE_SUPABASE_URL;
+        alert(`ERRO TÉCNICO (${error.status || 'Auth'}): ${error.message}\n\n[DIAGNÓSTICO AUTOMÁTICO]\nA Vercel está injetando esta URL: ${currentUrl}\nSe a URL for "placeholder" ou tiver aspas duplas em volta, o login vai falhar. Verifique as variáveis e faça um REDEPLOY.`);
         return;
       }
       
