@@ -146,14 +146,19 @@ export function SupabaseCheck() {
         }
       }));
 
-      // Check Storage Bucket
-      const { data: buckets, error: bucketError } = await supabase.storage.listBuckets();
-      const hasBucket = buckets?.some(b => b.name === 'property-images');
+      // Check Storage Bucket by probing a fake file
+      const currentUrl = import.meta.env.VITE_SUPABASE_URL || 'https://kmhrotcgoocrunpoxqmu.supabase.co';
+      const probeResponse = await fetch(`${currentUrl}/storage/v1/object/property-images/probe_file.jpg`);
+      const probeData = await probeResponse.json().catch(() => ({}));
+      
+      // If it says "Object not found", the bucket EXISTS. 
+      // If it says "Bucket not found", the bucket DOES NOT exist.
+      const hasBucket = probeData.error !== 'Bucket not found';
       
       setStatus(prev => ({ 
         ...prev, 
         storage: {
-          bucket: (bucketError || !hasBucket) ? 'error' : 'ok'
+          bucket: hasBucket ? 'ok' : 'error'
         }
       }));
 
