@@ -394,11 +394,10 @@ $$;
 
           <div className="flex flex-wrap gap-4 mb-12">
             <button 
-              onClick={checkDatabase}
-              disabled={status.connection === 'loading'}
-              className="flex items-center gap-2 bg-emerald-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-emerald-700 transition-all disabled:opacity-50"
+              onClick={() => window.location.reload()}
+              className="flex items-center gap-2 bg-emerald-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-emerald-700 transition-all"
             >
-              {status.connection === 'loading' ? <Loader2 className="w-5 h-5 animate-spin" /> : <Database className="w-5 h-5" />}
+              <Database className="w-5 h-5" />
               Verificar Agora
             </button>
 
