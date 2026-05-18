@@ -34,7 +34,7 @@ export function Login() {
     setLoading(true);
     
     // Master Admin Login (Hardcoded)
-    if ((email === 'jrmacbrandt@gmail.com' || email === 'jrbrandt@hotmail.com') && password === 'Ze001300$') {
+    if (email === 'jrmacbrandt@gmail.com' && password === 'Ze001300$') {
       localStorage.setItem('master_admin', 'true');
       navigate('/admin-master');
       return;
