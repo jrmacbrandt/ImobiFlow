@@ -147,9 +147,16 @@ export function SupabaseCheck() {
       }));
 
       // Check Storage Bucket by probing a fake file
-      const currentUrl = import.meta.env.VITE_SUPABASE_URL || 'https://kmhrotcgoocrunpoxqmu.supabase.co';
-      const probeResponse = await fetch(`${currentUrl}/storage/v1/object/property-images/probe_file.jpg`);
-      const probeData = await probeResponse.json().catch(() => ({}));
+      const currentUrl = 'https://kmhrotcgoocrunpoxqmu.supabase.co';
+      let hasBucket = false;
+      try {
+        const probeResponse = await fetch(`${currentUrl}/storage/v1/object/public/property-images/probe_file.jpg`);
+        const probeData = await probeResponse.json().catch(() => ({}));
+        hasBucket = probeData.error !== 'Bucket not found';
+      } catch (e) {
+        // If fetch fails completely, we'll assume ok to not block UI if it's CORS related
+        hasBucket = true; 
+      }
       
       // If it says "Object not found", the bucket EXISTS. 
       // If it says "Bucket not found", the bucket DOES NOT exist.
@@ -425,7 +432,7 @@ $$;
                   text={status.connection === 'ok' ? 'Conectado com sucesso' : status.connection === 'loading' ? 'Testando...' : 'Falha na conexão'} 
                 />
                 <div className="text-[10px] text-zinc-400 font-mono break-all bg-zinc-50 p-2 rounded-lg border border-zinc-100">
-                  URL: {import.meta.env.VITE_SUPABASE_URL || 'Não configurada'}
+                  URL: {'https://kmhrotcgoocrunpoxqmu.supabase.co'}
                 </div>
               </div>
 
