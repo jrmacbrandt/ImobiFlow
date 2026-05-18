@@ -1,17 +1,16 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://placeholder.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'placeholder';
+// Hardcoded para resolução definitiva de deploy sem depender de variáveis da Vercel
+const supabaseUrl = 'https://kmhrotcgoocrunpoxqmu.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImttaHJvdGNnb29jcnVucG94cW11Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxMjgxMTQsImV4cCI6MjA5NDcwNDExNH0.pqa3izrzmNzdhsbOkrlkY2NT4QWp_NkXRL4kTgWVD9Y';
 
 export const isSupabaseConfigured = () => {
-  return !!(import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY);
+  return true;
 };
 
-// Se as chaves não estiverem configuradas, o cliente ainda será criado mas as chamadas falharão.
-// No entanto, já guardamos as chamadas nos componentes.
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
-    persistSession: isSupabaseConfigured(), // Não tenta persistir se não estiver configurado
-    autoRefreshToken: isSupabaseConfigured(),
+    persistSession: true,
+    autoRefreshToken: true,
   }
 });
