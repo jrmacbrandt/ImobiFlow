@@ -69,31 +69,67 @@ export function AdminProfile() {
       return;
     }
 
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      alert('Usuário não autenticado.');
-      return;
-    }
-
     setLoading(true);
 
-    const { error } = await supabase
-      .from('profiles')
-      .upsert({
-        id: user.id,
-        ...profile,
-        updated_at: new Date().toISOString()
-      });
+    // Try to get real user from Supabase auth
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (user) {
+      // Normal flow: authenticated user
+      const { error } = await supabase
+        .from('profiles')
+        .upsert({
+          id: user.id,
+          ...profile,
+          updated_at: new Date().toISOString()
+        });
 
-    if (error) {
-      if (error.code === 'PGRST116' || error.message.includes('relation "profiles" does not exist')) {
-        alert('Erro: A tabela "profiles" não foi encontrada no seu banco de dados. Por favor, use a página de diagnóstico para criar as tabelas.');
-      } else {
+      if (error) {
         alert('Erro ao salvar perfil: ' + error.message);
+      } else {
+        alert('Perfil atualizado com sucesso!');
+      }
+    } else if (localStorage.getItem('master_admin') === 'true') {
+      // Master admin flow: no real auth session, find existing broker profile or create one
+      try {
+        // Try to find any existing profile
+        const { data: existingProfile } = await supabase
+          .from('profiles')
+          .select('id')
+          .limit(1)
+          .maybeSingle();
+
+        if (existingProfile) {
+          // Update existing profile
+          const { error } = await supabase
+            .from('profiles')
+            .update({
+              ...profile,
+              updated_at: new Date().toISOString()
+            })
+            .eq('id', existingProfile.id);
+
+          if (error) throw error;
+        } else {
+          // No profile exists — create one with a new UUID
+          const { error } = await supabase
+            .from('profiles')
+            .insert({
+              ...profile,
+              role: 'broker',
+              updated_at: new Date().toISOString()
+            });
+
+          if (error) throw error;
+        }
+        alert('Perfil atualizado com sucesso!');
+      } catch (err: any) {
+        alert('Erro ao salvar perfil (Master): ' + err.message);
       }
     } else {
-      alert('Perfil atualizado com sucesso!');
+      alert('Usuário não autenticado.');
     }
+
     setLoading(false);
   };
 
