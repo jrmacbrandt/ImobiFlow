@@ -158,10 +158,6 @@ export function SupabaseCheck() {
         hasBucket = true; 
       }
       
-      // If it says "Object not found", the bucket EXISTS. 
-      // If it says "Bucket not found", the bucket DOES NOT exist.
-      const hasBucket = probeData.error !== 'Bucket not found';
-      
       setStatus(prev => ({ 
         ...prev, 
         storage: {
