@@ -9,11 +9,18 @@ export async function compressAndConvertToWebP(file: File): Promise<File> {
         const canvas = document.createElement('canvas');
         let width = img.width;
         let height = img.height;
+        const MAX_DIMENSION = 1200; // Tamanho ideal para Retina Desktop/Mobile sem exagero
 
-        // Redimensionar para largura máxima de 1200px proporcionalmente
-        if (width > 1200) {
-          height = Math.round((height * 1200) / width);
-          width = 1200;
+        if (width > height) {
+          if (width > MAX_DIMENSION) {
+            height = Math.round((height * MAX_DIMENSION) / width);
+            width = MAX_DIMENSION;
+          }
+        } else {
+          if (height > MAX_DIMENSION) {
+            width = Math.round((width * MAX_DIMENSION) / height);
+            height = MAX_DIMENSION;
+          }
         }
 
         canvas.width = width;
@@ -27,7 +34,7 @@ export async function compressAndConvertToWebP(file: File): Promise<File> {
 
         ctx.drawImage(img, 0, 0, width, height);
 
-        // Converter para WebP com qualidade de 80%
+        // Converter para WebP com qualidade de 75% (Ideal balance between size and quality)
         canvas.toBlob(
           (blob) => {
             if (!blob) {
@@ -47,7 +54,7 @@ export async function compressAndConvertToWebP(file: File): Promise<File> {
             resolve(optimizedFile);
           },
           'image/webp',
-          0.8
+          0.75
         );
       };
       img.onerror = (err) => reject(err);
