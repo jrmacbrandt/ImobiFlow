@@ -37,9 +37,9 @@ const StructuredData = () => {
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
     "name": "ImobiFlow 2026",
-    "image": "https://imobiflow-peach.vercel.app/logo.png",
-    "@id": "https://imobiflow-peach.vercel.app",
-    "url": "https://imobiflow-peach.vercel.app",
+    "image": "https://imobiflow-three.vercel.app/logo.png",
+    "@id": "https://imobiflow-three.vercel.app",
+    "url": "https://imobiflow-three.vercel.app",
     "telephone": "+5521999999999",
     "address": {
       "@type": "PostalAddress",
