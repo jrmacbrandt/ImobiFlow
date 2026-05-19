@@ -12,6 +12,8 @@ export function SupabaseCheck() {
       profiles: 'ok' | 'error' | 'loading';
       properties: 'ok' | 'error' | 'loading';
       neighborhoods: 'ok' | 'error' | 'loading';
+      global_settings: 'ok' | 'error' | 'loading';
+      property_views: 'ok' | 'error' | 'loading';
     };
     storage: {
       bucket: 'ok' | 'error' | 'loading';
@@ -24,6 +26,8 @@ export function SupabaseCheck() {
       profiles: 'loading',
       properties: 'loading',
       neighborhoods: 'loading',
+      global_settings: 'loading',
+      property_views: 'loading'
     },
     storage: {
       bucket: 'loading'
@@ -146,6 +150,16 @@ export function SupabaseCheck() {
         }
       }));
 
+      // Check property_views
+      const { error: viewsError } = await supabase.from('property_views').select('count', { count: 'exact', head: true });
+      setStatus(prev => ({ 
+        ...prev, 
+        tables: {
+          ...prev.tables,
+          property_views: viewsError ? 'error' : 'ok'
+        }
+      }));
+
       // Check Storage Bucket by probing a fake file
       const currentUrl = 'https://kmhrotcgoocrunpoxqmu.supabase.co';
       let hasBucket = false;
@@ -225,10 +239,16 @@ CREATE TABLE IF NOT EXISTS public.properties (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- 2. Habilitar RLS
+CREATE TABLE IF NOT EXISTS public.property_views (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  property_id UUID REFERENCES public.properties(id) ON DELETE CASCADE,
+  viewed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.neighborhoods ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.properties ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.property_views ENABLE ROW LEVEL SECURITY;
 
 -- 3. Políticas (Ignora erro se já existir)
 DO $$ 
@@ -263,6 +283,14 @@ BEGIN
 
     IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'Atualização global de configurações') THEN
         CREATE POLICY "Atualização global de configurações" ON public.global_settings FOR UPDATE TO authenticated USING (true);
+    END IF;
+
+    IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'Permitir inserção pública de visualizações') THEN
+        CREATE POLICY "Permitir inserção pública de visualizações" ON public.property_views FOR INSERT WITH CHECK (true);
+    END IF;
+
+    IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'Leitura de visualizações para usuários autenticados') THEN
+        CREATE POLICY "Leitura de visualizações para usuários autenticados" ON public.property_views FOR SELECT TO authenticated USING (true);
     END IF;
 END $$;
 
@@ -440,6 +468,8 @@ $$;
                 <StatusItem label="profiles" status={status.tables.profiles} />
                 <StatusItem label="properties" status={status.tables.properties} />
                 <StatusItem label="neighborhoods" status={status.tables.neighborhoods} />
+                <StatusItem label="global_settings" status={status.tables.global_settings} />
+                <StatusItem label="property_views" status={status.tables.property_views} />
               </div>
 
               <h2 className="text-lg font-bold text-zinc-900 pt-4">Armazenamento (Storage)</h2>
