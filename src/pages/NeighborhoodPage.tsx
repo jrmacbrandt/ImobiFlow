@@ -14,6 +14,7 @@ export function NeighborhoodPage() {
   const [properties, setProperties] = useState<any[]>([]);
   const [faq, setFaq] = useState<any[]>([]);
   const [generatingFaq, setGeneratingFaq] = useState(false);
+  const [broker, setBroker] = useState<any>(null);
 
   useEffect(() => {
     if (!slug) return;
@@ -55,7 +56,11 @@ export function NeighborhoodPage() {
 
       setProperties(propData || []);
       
-      // 3. Generate FAQ with IA if needed
+      // 3. Fetch broker profile for WhatsApp contact
+      const { data: prof } = await supabase.from('profiles').select('*').limit(1).maybeSingle();
+      if (prof) setBroker(prof);
+
+      // 4. Generate FAQ with IA if needed
       generateFaq(nbData.nome, nbData.cidade);
     }
 
@@ -137,14 +142,24 @@ export function NeighborhoodPage() {
           <p className="text-zinc-400 text-xl max-w-2xl mb-10">
             Descubra as melhores oportunidades de {typeName} em um dos bairros mais desejados de {neighborhood.cidade}.
           </p>
-          <a 
-            href={`https://wa.me/5521999999999?text=Olá, tenho interesse em imóveis no ${neighborhood.nome}`}
-            target="_blank"
-            className="inline-flex items-center gap-2 bg-emerald-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-900/20"
-          >
-            <MessageCircle className="w-5 h-5" />
-            Falar com Especialista
-          </a>
+          {(() => {
+            const rawPhone = broker?.whatsapp_number?.replace(/\D/g, '') || '';
+            const formattedPhone = rawPhone 
+              ? (rawPhone.startsWith('55') ? rawPhone : `55${rawPhone}`) 
+              : '5521999999999';
+            const whatsappMsg = `Olá, tenho interesse em imóveis no ${neighborhood.nome}`;
+            return (
+              <a 
+                href={`https://wa.me/${formattedPhone}?text=${encodeURIComponent(whatsappMsg)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-emerald-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-900/20"
+              >
+                <MessageCircle className="w-5 h-5" />
+                Falar com Especialista
+              </a>
+            );
+          })()}
         </div>
       </section>
 

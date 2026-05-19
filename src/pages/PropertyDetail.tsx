@@ -52,7 +52,18 @@ export function PropertyDetail() {
           .select('*')
           .eq('id', prop.broker_id)
           .maybeSingle();
-        if (prof) setBroker(prof);
+        
+        if (prof) {
+          setBroker(prof);
+        } else {
+          // Fallback: Use the first profile in the system if no profile is linked
+          const { data: fallbackProf } = await supabase
+            .from('profiles')
+            .select('*')
+            .limit(1)
+            .maybeSingle();
+          if (fallbackProf) setBroker(fallbackProf);
+        }
       }
       setLoading(false);
     }
@@ -62,8 +73,14 @@ export function PropertyDetail() {
   if (loading) return <div className="min-h-screen flex items-center justify-center">Carregando...</div>;
   if (!property) return <div className="min-h-screen flex items-center justify-center">Imóvel não encontrado.</div>;
 
-  const whatsappMessage = `Olá ${broker?.full_name || 'Corretor'}, vi o imóvel "${property.title}" (Cód: ${property.property_code}) no seu site e quero agendar uma visita!`;
-  const whatsappUrl = `https://wa.me/${broker?.whatsapp_number}?text=${encodeURIComponent(whatsappMessage)}`;
+  const brokerName = broker?.full_name || 'Corretor Independente';
+  const rawPhone = broker?.whatsapp_number?.replace(/\D/g, '') || '';
+  const formattedPhone = rawPhone 
+    ? (rawPhone.startsWith('55') ? rawPhone : `55${rawPhone}`) 
+    : '5521999999999';
+
+  const whatsappMessage = `Olá ${brokerName}, vi o imóvel "${property.title}" (Cód: ${property.property_code}) no seu site e quero agendar uma visita!`;
+  const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
     <div className="min-h-screen bg-zinc-50 pb-24">
@@ -186,11 +203,11 @@ export function PropertyDetail() {
             <div className="p-6 bg-zinc-900 rounded-3xl text-white flex items-center justify-between">
               <div>
                 <p className="text-zinc-400 text-xs uppercase tracking-widest mb-1">Responsável</p>
-                <p className="font-bold text-lg">{broker?.full_name || 'Corretor Independente'}</p>
+                <p className="font-bold text-lg">{brokerName}</p>
                 <p className="text-zinc-500 text-sm">CRECI: {broker?.creci || '---'}</p>
               </div>
               <div className="w-12 h-12 bg-emerald-600 rounded-full flex items-center justify-center font-bold text-xl">
-                {broker?.full_name?.charAt(0) || 'C'}
+                {brokerName.charAt(0)}
               </div>
             </div>
           </div>
