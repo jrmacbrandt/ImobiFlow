@@ -245,6 +245,10 @@ BEGIN
         CREATE POLICY "Dono acessa próprio perfil" ON public.profiles FOR ALL USING (auth.uid() = id);
     END IF;
 
+    IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'Leitura pública de perfis') THEN
+        CREATE POLICY "Leitura pública de perfis" ON public.profiles FOR SELECT USING (true);
+    END IF;
+
     IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'Dono gerencia próprios imóveis') THEN
         CREATE POLICY "Dono gerencia próprios imóveis" ON public.properties FOR ALL USING (auth.uid() = broker_id);
     END IF;
