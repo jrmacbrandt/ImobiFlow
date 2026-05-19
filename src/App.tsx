@@ -19,7 +19,6 @@ import { Loader2 } from 'lucide-react';
 
 function ProtectedRoute() {
   const [loading, setLoading] = useState(true);
-  const [mustChange, setMustChange] = useState(false);
   const [session, setSession] = useState<any>(null);
 
   useEffect(() => {
@@ -73,28 +72,6 @@ function ProtectedRoute() {
           }
         }
 
-        // Check if setup is completed via profiles table
-        try {
-          const { data: profile, error: profileErr } = await supabase
-            .from('profiles')
-            .select('must_change_password, requires_password_change')
-            .eq('id', user.id)
-            .maybeSingle();
-          
-          if (profileErr) {
-            console.error('Error fetching profile:', profileErr);
-            // Se houver erro e for o usuário teste, bloqueia por segurança
-            if (user.email === 'teste@imobiflow.com') setMustChange(true);
-          } else if (profile) {
-            setMustChange(profile.must_change_password === true || profile.requires_password_change === true);
-          } else {
-            // Se não houver perfil e for o usuário teste, bloqueia
-            if (user.email === 'teste@imobiflow.com') setMustChange(true);
-          }
-        } catch (e) {
-          console.warn('Profile check error:', e);
-          if (user.email === 'teste@imobiflow.com') setMustChange(true);
-        }
       } catch (err) {
         console.error('Critical auth check error:', err);
       } finally {
@@ -111,7 +88,6 @@ function ProtectedRoute() {
       if (mounted) {
         setSession(currentSession);
         if (event === 'SIGNED_OUT') {
-          setMustChange(false);
           setLoading(false);
           localStorage.removeItem('demo_mode');
         }
@@ -146,7 +122,6 @@ function ProtectedRoute() {
   }
 
   if (!session && isSupabaseConfigured() && localStorage.getItem('demo_mode') !== 'true') return <Navigate to="/login" replace />;
-  if (mustChange && localStorage.getItem('demo_mode') !== 'true') return <Navigate to="/setup-account" replace />;
 
   return <Outlet />;
 }

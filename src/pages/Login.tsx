@@ -64,18 +64,7 @@ export function Login() {
       }
       
       if (data.session) {
-        // Check for must_change_password flag
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('must_change_password, requires_password_change')
-          .eq('id', data.session.user.id)
-          .maybeSingle();
-        
-        if (profile?.must_change_password || profile?.requires_password_change) {
-          navigate('/setup-account');
-        } else {
-          navigate('/admin');
-        }
+        navigate('/admin');
       } else {
         alert('Login realizado, mas nenhuma sessão foi criada. Tente novamente.');
       }
