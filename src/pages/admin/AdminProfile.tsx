@@ -4,6 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 import { MOCK_PROFILE } from '../../lib/mockData';
 
+function maskWhatsApp(value: string): string {
+  const digits = value.replace(/\D/g, '').slice(0, 11);
+  if (digits.length <= 2) return digits.length ? `(${digits}` : '';
+  if (digits.length <= 7) return `(${digits.slice(0, 2)})${digits.slice(2)}`;
+  return `(${digits.slice(0, 2)})${digits.slice(2, 7)}-${digits.slice(7)}`;
+}
+
 export function AdminProfile() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -220,10 +227,11 @@ export function AdminProfile() {
                 <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
                 <input 
                   type="text"
-                  value={profile.whatsapp_number}
-                  onChange={e => setProfile({...profile, whatsapp_number: e.target.value})}
+                  value={maskWhatsApp(profile.whatsapp_number || '')}
+                  onChange={e => setProfile({...profile, whatsapp_number: e.target.value.replace(/\D/g, '').slice(0, 11)})}
                   className="w-full pl-10 p-3 rounded-xl border border-zinc-200 focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
-                  placeholder="Ex: 21999999999"
+                  placeholder="(21)99999-9999"
+                  maxLength={14}
                 />
               </div>
             </div>
