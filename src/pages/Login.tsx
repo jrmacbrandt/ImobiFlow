@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
-import { Mail, Lock, Loader2, ArrowRight, ArrowLeft, Eye, EyeOff, Database, Sparkles } from 'lucide-react';
+import { Mail, Lock, Loader2, ArrowRight, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 
 export function Login() {
   const [loading, setLoading] = useState(false);
@@ -10,14 +10,7 @@ export function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   
-  React.useEffect(() => {
-    localStorage.removeItem('demo_mode');
-  }, []);
 
-  const enterDemoMode = () => {
-    localStorage.setItem('demo_mode', 'true');
-    navigate('/admin');
-  };
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -175,19 +168,7 @@ export function Login() {
           </button>
         </form>
 
-        <div className="pt-6 border-t border-zinc-100 mt-6">
-          <button 
-            type="button"
-            onClick={enterDemoMode}
-            className="w-full flex items-center justify-center gap-2 text-xs font-bold text-zinc-500 hover:text-emerald-600 transition-colors group"
-          >
-            <Sparkles className="w-4 h-4 group-hover:animate-pulse" />
-            Entrar em Modo Demonstração
-          </button>
-          <p className="text-[9px] text-zinc-400 text-center mt-1">
-            Explore o painel com dados fictícios sem precisar de login.
-          </p>
-        </div>
+
       </div>
     </div>
   );

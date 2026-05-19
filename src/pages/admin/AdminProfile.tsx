@@ -76,11 +76,13 @@ export function AdminProfile() {
     
     if (user) {
       // Normal flow: authenticated user
+      // Destructure to remove any mock 'id' from profile state before saving
+      const { id: _ignoreId, ...profileData } = profile as any;
       const { error } = await supabase
         .from('profiles')
         .upsert({
           id: user.id,
-          ...profile,
+          ...profileData,
           updated_at: new Date().toISOString()
         });
 
@@ -101,10 +103,11 @@ export function AdminProfile() {
 
         if (existingProfile) {
           // Update existing profile
+          const { id: _id1, ...updateData } = profile as any;
           const { error } = await supabase
             .from('profiles')
             .update({
-              ...profile,
+              ...updateData,
               updated_at: new Date().toISOString()
             })
             .eq('id', existingProfile.id);
@@ -112,10 +115,11 @@ export function AdminProfile() {
           if (error) throw error;
         } else {
           // No profile exists — create one with a new UUID
+          const { id: _id2, ...insertData } = profile as any;
           const { error } = await supabase
             .from('profiles')
             .insert({
-              ...profile,
+              ...insertData,
               role: 'broker',
               updated_at: new Date().toISOString()
             });
