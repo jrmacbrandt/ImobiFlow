@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { 
   MapPin, Bed, Car, Share2, 
   ChevronLeft, ChevronRight, MessageCircle,
-  CheckCircle2, Info, ArrowLeft, X
+  CheckCircle2, Info, ArrowLeft, X, Check
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
@@ -18,6 +18,7 @@ export function PropertyDetail() {
   const [loading, setLoading] = useState(true);
   const [activeImage, setActiveImage] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
     async function fetchDetails() {
@@ -82,6 +83,29 @@ export function PropertyDetail() {
   const whatsappMessage = `Olá ${brokerName}, vi o imóvel "${property.title}" (Cód: ${property.property_code || property.id?.substring(0,4).toUpperCase()}) no seu site e quero agendar uma visita!`;
   const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(whatsappMessage)}`;
 
+  const handleShare = async () => {
+    const url = window.location.href;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: property.title,
+          text: `Confira este imóvel: ${property.title}`,
+          url: url,
+        });
+      } catch (err) {
+        console.error('Erro ao compartilhar:', err);
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(url);
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+      } catch (err) {
+        console.error('Erro ao copiar link:', err);
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-zinc-50 pb-24">
       {/* Navigation */}
@@ -91,8 +115,16 @@ export function PropertyDetail() {
             <ArrowLeft className="w-4 h-4" />
             Voltar para lista
           </Link>
-          <button className="p-2 rounded-full hover:bg-zinc-100 transition-colors">
-            <Share2 className="w-5 h-5 text-zinc-600" />
+          <button 
+            onClick={handleShare}
+            title="Compartilhar imóvel"
+            className="p-2 rounded-full hover:bg-zinc-100 transition-colors"
+          >
+            {isCopied ? (
+              <Check className="w-5 h-5 text-emerald-600" />
+            ) : (
+              <Share2 className="w-5 h-5 text-zinc-600" />
+            )}
           </button>
         </div>
       </div>
