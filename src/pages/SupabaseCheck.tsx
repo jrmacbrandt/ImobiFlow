@@ -234,6 +234,7 @@ CREATE TABLE IF NOT EXISTS public.properties (
   parking_spots INTEGER DEFAULT 0,
   area_sqm DECIMAL DEFAULT 0,
   images TEXT[] DEFAULT '{}',
+  property_code TEXT UNIQUE,
   is_featured BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -249,6 +250,35 @@ ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.neighborhoods ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.properties ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.property_views ENABLE ROW LEVEL SECURITY;
+
+-- 2.1 Trigger para Property Code
+DO $$ 
+BEGIN
+  CREATE OR REPLACE FUNCTION public.generate_unique_property_code() 
+  RETURNS TRIGGER AS $func$
+  DECLARE
+    new_code TEXT;
+    done BOOLEAN DEFAULT FALSE;
+  BEGIN
+    WHILE NOT done LOOP
+      new_code := floor(random() * 9000 + 1000)::TEXT;
+      IF NOT EXISTS (SELECT 1 FROM public.properties WHERE property_code = new_code) THEN
+        done := TRUE;
+      END IF;
+    END LOOP;
+    NEW.property_code := new_code;
+    RETURN NEW;
+  END;
+  $func$ LANGUAGE plpgsql;
+
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'trg_generate_property_code') THEN
+    CREATE TRIGGER trg_generate_property_code
+    BEFORE INSERT ON public.properties
+    FOR EACH ROW
+    WHEN (NEW.property_code IS NULL)
+    EXECUTE FUNCTION public.generate_unique_property_code();
+  END IF;
+END $$;
 
 -- 3. Políticas (Ignora erro se já existir)
 DO $$ 

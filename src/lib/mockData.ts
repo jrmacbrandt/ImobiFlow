@@ -1,6 +1,7 @@
 export const MOCK_PROPERTIES = [
   {
     id: '1',
+    property_code: '4821',
     title: 'Apartamento Luxo com Vista Mar',
     description: 'Um incrível apartamento localizado no coração da Barra da Tijuca. Sol da manhã, varanda gourmet e acabamento de alto padrão.',
     price: 1250000,
@@ -18,6 +19,7 @@ export const MOCK_PROPERTIES = [
   },
   {
     id: '2',
+    property_code: '9372',
     title: 'Casa Duplex em Condomínio Fechado',
     description: 'Segurança e conforto para sua família em Nova Iguaçu. Casa ampla com quintal e piscina.',
     price: 850000,
@@ -34,6 +36,7 @@ export const MOCK_PROPERTIES = [
   },
   {
     id: '3',
+    property_code: '2105',
     title: 'Studio Moderno Próximo ao Metrô',
     description: 'Ideal para investimento ou moradia prática. Totalmente mobiliado e decorado.',
     price: 450000,
@@ -50,6 +53,7 @@ export const MOCK_PROPERTIES = [
   },
   {
     id: '4',
+    property_code: '7640',
     title: 'Cobertura Linear com Piscina Privativa',
     description: 'Exclusividade e sofisticação. Vista panorâmica para as montanhas.',
     price: 2100000,

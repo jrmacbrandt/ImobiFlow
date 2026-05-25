@@ -313,7 +313,30 @@ Dada a transação ser de ${formData.purpose}, adapte o título para "[Tipo] par
     setLoading(true);
 
     if (localStorage.getItem('demo_mode') === 'true') {
-      alert('Modo Demonstração: Alterações não são salvas.');
+      const existingProp = id ? MOCK_PROPERTIES.find(p => p.id === id) : null;
+      const demoCode = existingProp?.property_code || Math.floor(Math.random() * 9000 + 1000).toString();
+      
+      const mockProp = {
+        ...formData,
+        id: id || Date.now().toString(),
+        property_code: demoCode,
+        price: parseCurrency(formData.price),
+        bedrooms: formData.bedrooms === '' ? 0 : Number(formData.bedrooms),
+        bathrooms: formData.bathrooms === '' ? 0 : Number(formData.bathrooms),
+        parking_spots: formData.parking_spots === '' ? 0 : Number(formData.parking_spots),
+        area_sqm: formData.area_sqm === '' ? 0 : Number(formData.area_sqm),
+        created_at: new Date().toISOString()
+      };
+
+      if (id) {
+        const index = MOCK_PROPERTIES.findIndex(p => p.id === id);
+        if (index !== -1) MOCK_PROPERTIES[index] = mockProp;
+        alert('Modo Demonstração: Imóvel atualizado temporariamente.');
+      } else {
+        MOCK_PROPERTIES.push(mockProp);
+        alert('Modo Demonstração: Imóvel salvo temporariamente. Código gerado: ' + demoCode);
+      }
+      
       setLoading(false);
       navigate('/admin');
       return;
