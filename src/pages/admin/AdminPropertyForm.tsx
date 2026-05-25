@@ -669,7 +669,10 @@ Dada a transação ser de ${formData.purpose}, adapte o título para "[Tipo] par
                 {uploadError}
               </p>
             )}
-            <p className="text-[10px] text-zinc-400">As fotos serão automaticamente otimizadas e convertidas para WebP.</p>
+            <p className="text-[10px] text-zinc-400">
+              As fotos são automaticamente otimizadas e convertidas para <strong>WebP</strong>. 
+              {' '}<span className="text-amber-500 font-bold">Limite máximo por arquivo: 15MB.</span>
+            </p>
           </div>
 
           {/* 3. Assistente de Redação (Tabs + Content) */}

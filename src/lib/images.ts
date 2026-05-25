@@ -1,8 +1,14 @@
 export async function compressAndConvertToWebP(file: File): Promise<File> {
+  const MAX_FILE_SIZE_MB = 15;
+  if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+    throw new Error(`O arquivo "${file.name}" excede o limite de ${MAX_FILE_SIZE_MB}MB. Por favor, escolha uma imagem menor.`);
+  }
+
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (event) => {
+
       const img = new Image();
       img.src = event.target?.result as string;
       img.onload = () => {
