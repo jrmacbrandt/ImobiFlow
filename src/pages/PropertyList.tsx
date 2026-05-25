@@ -241,7 +241,7 @@ export function PropertyList() {
                       {property.purpose}
                     </div>
                     <div className="absolute bottom-4 left-4 bg-zinc-900/80 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase tracking-tighter">
-                      #{property.property_code}
+                      #{property.property_code || property.id?.substring(0,4).toUpperCase()}
                     </div>
                   </div>
                   <div className="p-6">

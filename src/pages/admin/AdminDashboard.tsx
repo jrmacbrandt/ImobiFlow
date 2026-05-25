@@ -384,7 +384,7 @@ export function AdminDashboard() {
                         <div>
                           <p className="font-bold text-zinc-900 line-clamp-1">{property.title}</p>
                           <p className="text-xs text-zinc-400">
-                            #{property.property_code || '----'} • {property.type} • {property.purpose}
+                            #{property.property_code || property.id?.substring(0,4).toUpperCase()} • {property.type} • {property.purpose}
                             {property.viewCount !== undefined && ` • ${property.viewCount} views`}
                           </p>
                         </div>
@@ -509,7 +509,7 @@ export function AdminDashboard() {
                     <div className="flex-1 min-w-0">
                       <p className="font-bold text-zinc-900 line-clamp-1">{property.title}</p>
                       <p className="text-xs text-zinc-400 mb-1">
-                        #{property.property_code || '----'} • {property.type} • {property.purpose}
+                        #{property.property_code || property.id?.substring(0,4).toUpperCase()} • {property.type} • {property.purpose}
                         {property.viewCount !== undefined && ` • ${property.viewCount} views`}
                       </p>
                       <p className="font-bold text-emerald-600">{formatPrice(property.price)}</p>

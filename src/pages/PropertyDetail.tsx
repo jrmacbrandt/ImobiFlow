@@ -79,7 +79,7 @@ export function PropertyDetail() {
     ? (rawPhone.startsWith('55') ? rawPhone : `55${rawPhone}`) 
     : '5521999999999';
 
-  const whatsappMessage = `Olá ${brokerName}, vi o imóvel "${property.title}" (Cód: ${property.property_code}) no seu site e quero agendar uma visita!`;
+  const whatsappMessage = `Olá ${brokerName}, vi o imóvel "${property.title}" (Cód: ${property.property_code || property.id?.substring(0,4).toUpperCase()}) no seu site e quero agendar uma visita!`;
   const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
@@ -165,7 +165,7 @@ export function PropertyDetail() {
             <div>
               <div className="flex items-center gap-2 text-emerald-600 font-bold text-sm uppercase tracking-widest mb-2">
                 <CheckCircle2 className="w-4 h-4" />
-                {property.purpose} • {property.type} • Cód: {property.property_code}
+                {property.purpose} • {property.type} • Cód: {property.property_code || property.id?.substring(0,4).toUpperCase()}
               </div>
               <h1 className="text-4xl font-bold text-zinc-900 mb-4 leading-tight">{property.title}</h1>
               <div className="flex items-center gap-2 text-zinc-500 mb-6">

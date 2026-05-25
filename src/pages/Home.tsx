@@ -325,7 +325,7 @@ export function Home() {
                           <MapPin className="w-4 h-4 text-emerald-500" />
                           {item.neighborhood}, {item.city}
                         </div>
-                        <span className="font-bold text-zinc-500 px-3 py-1 bg-zinc-100 rounded-full">#{item.property_code}</span>
+                        <span className="font-bold text-zinc-500 px-3 py-1 bg-zinc-100 rounded-full">#{item.property_code || item.id?.substring(0,4).toUpperCase()}</span>
                       </div>
                       <Link to={`/imovel/${item.id}`} className="block group">
                         <h2 className="text-4xl md:text-5xl font-black text-zinc-900 tracking-tighter leading-tight group-hover:text-emerald-600 transition-colors">
@@ -393,7 +393,7 @@ export function Home() {
                        <div className="p-8 space-y-4 text-center">
                          <div className="flex items-center justify-center gap-3 text-zinc-400 text-[10px] font-black uppercase tracking-widest">
                            <div className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-emerald-500" />{property.neighborhood}</div>
-                           <span className="text-zinc-300">#{property.property_code}</span>
+                           <span className="text-zinc-300">#{property.property_code || property.id?.substring(0,4).toUpperCase()}</span>
                          </div>
                          <h3 className="text-xl font-black text-zinc-900 tracking-tight leading-tight line-clamp-1 group-hover/card:text-emerald-600 transition-colors mx-auto">{property.title}</h3>
                          <p className="text-emerald-600 font-black text-2xl tracking-tighter mx-auto">{formatPrice(property.price)}</p>
